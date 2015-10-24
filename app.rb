@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'sinatra/base'
 require_relative './model/products'
 
@@ -14,7 +15,7 @@ class QueenShopApp < Sinatra::Base
     def check_items (items, prices, pages)
       items.map do |item|
         found = Products.new(item, '', pages).products.keys
-        [item, prices.select { |price| !found.include? price }]
+        [item, prices.select { |price| found.include? price }]
       end.to_h
     rescue
       halt 404
