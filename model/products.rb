@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'queenshop'
 require 'json'
 
@@ -31,9 +32,8 @@ end
 class Products
   attr_reader :products
   def initialize (item='', price='', pages='')
-    puts 'init'
-    @item_list = {}
     params = []
+    @products = []
     # should encode quotes and special chars here
     # to avoid code injection
     params.push("price=#{price}") if !price.empty?
@@ -50,12 +50,11 @@ class Products
 
   private
 
-  def load_items (params=[])
+  def load_items (params = [])
     item_list = ItemList.new
     scraper = QueenShopScraper::Filter.new
-    results = scraper.scrape (params)
-    results.each do |item, price|
-      item_list[item] = price
+    scraper.scrape(params).each do |item|
+      item_list[item[:title]] = item[:price]
     end
   end
 end

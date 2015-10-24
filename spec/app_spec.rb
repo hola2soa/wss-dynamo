@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require_relative 'spec_helper'
 require 'json'
 
@@ -11,7 +12,7 @@ end
 
 describe 'Getting cadet information' do
   it 'should return their prices' do
-    get '/api/v1/cadet/10.json'
+    get '/api/v1/qs/10.json'
     last_response.must_be :ok?
   end
 
@@ -22,17 +23,18 @@ describe 'Getting cadet information' do
 end
 
 describe 'Checking items for prices' do
-  it 'should find missing prices' do
+  it 'should find matching prices' do
     header = { 'CONTENT_TYPE' => 'application/json' }
     body = {
-      items: ['鬆緊合身窄管褲 七色售', '基本實搭多色圓領上衣'],
-      prices: ['290','250']
+      items: ['M', 'S'],
+      prices: ['290','250'],
+      pages: '1..5'
     }
 
     post '/api/v1/check', body.to_json, header
     last_response.must_be :ok?
   end
-
+=begin
   it 'should return 404 for unknown items' do
     header = { 'CONTENT_TYPE' => 'application/json' }
     body = {
@@ -51,4 +53,5 @@ describe 'Checking items for prices' do
     post '/api/v1/check', body, header
     last_response.must_be :bad_request?
   end
+=end
 end

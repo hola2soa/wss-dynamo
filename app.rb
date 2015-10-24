@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'sinatra/base'
 require_relative './model/products'
 
@@ -13,8 +14,8 @@ class QueenShopApp < Sinatra::Base
 
     def check_items (items, prices, pages)
       items.map do |item|
-        found = Products.new(item, '', pages).products.keys
-        [item, prices.select { |price| !found.include? price }]
+        found = Products.new(item).products.keys
+        [item, prices.select { |price| found.include? price }]
       end.to_h
     rescue
       halt 404
@@ -27,7 +28,7 @@ class QueenShopApp < Sinatra::Base
       'Github repo - master branch</a>'
   end
 
-  get '/api/v1/cadet/:item.json' do
+  get '/api/v1/qs/:item.json' do
     content_type :json
     get_items(params[:item]).to_json
   end
