@@ -4,6 +4,7 @@ gem 'sinatra'
 gem 'thin'
 gem 'codebadges'
 gem 'json'
+gem 'oga'
 
 group :test do
   gem 'minitest'
