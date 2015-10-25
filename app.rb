@@ -6,15 +6,15 @@ require_relative './model/products'
 # Basic webapp to show queenshop item/prices
 class QueenShopApp < Sinatra::Base
   helpers do
-    def get_items(params)
-      Products.new(params)
+    def get_items(item)
+      Products.new(item).products
     rescue
       halt 404
     end
 
     def check_items (items, prices, pages)
       items.map do |item|
-        found = Products.new(item, '', pages).products.keys
+        found = Products.new(item).prices
         [item, prices.select { |price| found.include? price }]
       end.to_h
     rescue
@@ -28,7 +28,7 @@ class QueenShopApp < Sinatra::Base
       'Github repo - master branch</a>'
   end
 
-  get '/api/v1/qs/:item.json' do
+  get '/api/v1/qs/:item' do
     content_type :json
     get_items(params[:item]).to_json
   end

@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'sinatra'
 gem 'thin'
-gem 'codebadges'
+gem 'queenshop'
 gem 'json'
 
 group :test do
@@ -10,5 +10,4 @@ group :test do
   gem 'rack'
   gem 'rack-test'
   gem 'rake'
-  gem 'queenshop'
 end
