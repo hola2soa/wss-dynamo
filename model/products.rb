@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'queenshop'
 require 'json'
+require 'iconv'
 
 ##
 # Stores prodcut name and price in a json list
@@ -29,11 +30,17 @@ end
 #   pr = Products.new('blouse', '<200')
 #   puts pr.products.to_json
 #
+# this will work but it is not correct
+# need to check why it is not returning array properly
+# for now just do a silly stupid fix
 class Products
   attr_reader :products
+  attr_reader :prices
   def initialize (item='', price='', pages='')
     params = []
     @products = []
+    @items = []
+    @prices = []
     # should encode quotes and special chars here
     # to avoid code injection
     params.push("price=#{price}") if !price.empty?
@@ -53,8 +60,13 @@ class Products
   def load_items (params = [])
     item_list = ItemList.new
     scraper = QueenShopScraper::Filter.new
+    puts "................."
+    puts params
     scraper.scrape(params).each do |item|
       item_list[item[:title]] = item[:price]
+      @prices.push(item[:price])
     end
   end
 end
+
+# puts Products.new('10').items

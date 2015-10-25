@@ -17,7 +17,7 @@ describe 'Getting cadet information' do
   end
 
   it 'should return 404 for unknown items' do
-    get "/api/v1/cadet/#{random_str(20)}.json"
+    get "/api/v1/check/#{random_str(20)}.json"
     last_response.must_be :not_found?
   end
 end
@@ -34,7 +34,6 @@ describe 'Checking items for prices' do
     post '/api/v1/check', body.to_json, header
     last_response.must_be :ok?
   end
-=begin
   it 'should return 404 for unknown items' do
     header = { 'CONTENT_TYPE' => 'application/json' }
     body = {
@@ -53,5 +52,4 @@ describe 'Checking items for prices' do
     post '/api/v1/check', body, header
     last_response.must_be :bad_request?
   end
-=end
 end
