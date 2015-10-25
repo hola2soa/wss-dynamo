@@ -1,3 +1,8 @@
 #!/usr/bin/env ruby
-require './app.rb'
-run QueenShopApp
+
+# ---- Load the API environment
+require ::File.expand_path('../config/environment', __FILE__)
+
+# --------------------------------------------------------------
+# Top-level routing
+map('/api/v1/') { run QueenShopApi::SinatraApp }
