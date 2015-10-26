@@ -39,7 +39,6 @@ class Products
   def initialize (item='', price='', pages='')
     params = []
     @products = []
-    @items = []
     @prices = []
     # should encode quotes and special chars here
     # to avoid code injection
@@ -50,8 +49,8 @@ class Products
   end
 
   def to_json
-    @item_list.map do |item, price|
-      { 'item' => item, 'price' => price }
+    @products.map do |item|
+      { 'item' => item[:item], 'price' => item[:price] }
     end.to_json
   end
 
@@ -60,9 +59,12 @@ class Products
   def load_items (params = [])
     item_list = ItemList.new
     scraper = QueenShopScraper::Filter.new
-    puts "................."
-    puts params
+    ic = Iconv.new('UTF-8','BIG5')
+    # records = ic.iconv(scraper.scrape(params)) 
     scraper.scrape(params).each do |item|
+      # need iconv here, not sure icon charset still not kept
+      # eventhough it was specified in the scraper api
+      item[:title] = ic.iconv(item[:title])
       item_list[item[:title]] = item[:price]
       @prices.push(item[:price])
     end
