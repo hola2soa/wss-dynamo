@@ -5,7 +5,10 @@ gem 'thin'
 gem 'queenshop'
 gem 'json'
 gem 'oga'
+<<<<<<< HEAD
 gem 'iconv'
+=======
+>>>>>>> master
 
 group :test do
   gem 'minitest'
