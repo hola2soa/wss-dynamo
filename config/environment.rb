@@ -1,5 +1,6 @@
+require 'bundler/setup'
 require 'sinatra/base'
-require 'sinatra/json'
+#require 'sinatra/json'
 
 # Ensure app.rb gets loaded before all routes
 require_relative '../app'

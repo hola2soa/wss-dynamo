@@ -7,7 +7,7 @@ class SinatraApp < Sinatra::Base
       'Github repo - master branch</a>'
   end
   
-  get '/qs/:item.json' do
+  get '/qs/:item' do
     content_type :json
     get_items(params[:item]).to_json
   end

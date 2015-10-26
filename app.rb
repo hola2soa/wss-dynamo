@@ -7,4 +7,3 @@ class SinatraApp < Sinatra::Base
   end
 end
 end
-
