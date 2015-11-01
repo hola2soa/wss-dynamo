@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 ENV['RACK_ENV'] = 'test'
 
+require 'bundler/setup'
+require 'sinatra/base'
 require 'minitest/autorun'
 require 'rack/test'
 require_relative '../app'
@@ -8,7 +10,7 @@ require_relative '../app'
 include Rack::Test::Methods
 
 def app
-  QueenShopApp
+  QueenShopApi::SinatraApp
 end
 
 def random_str(n)
