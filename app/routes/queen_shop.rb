@@ -16,7 +16,8 @@ class SinatraApp < Sinatra::Base
     content_type :json
     begin
       req = JSON.parse(request.body.read)
-    rescue
+    rescue => e
+      logger.error "Error: #{e.message}"
       halt 400
     end
 
