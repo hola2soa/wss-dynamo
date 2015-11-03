@@ -10,6 +10,14 @@ gem 'json'
 gem 'oga'
 gem 'iconv'
 
+group :production do
+  gem 'pg'
+end
+
+group :development, :test do
+  gem 'sqlite3'
+end
+
 group :test do
   gem 'minitest'
   gem 'minitest-rg'

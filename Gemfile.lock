@@ -1,0 +1,77 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    addressable (2.3.8)
+    ansi (1.5.0)
+    ast (2.1.0)
+    backports (3.6.6)
+    crack (0.4.2)
+      safe_yaml (~> 1.0.0)
+    daemons (1.2.3)
+    eventmachine (1.0.8)
+    iconv (1.0.4)
+    json (1.8.3)
+    minitest (5.8.2)
+    minitest-rg (5.2.0)
+      minitest (~> 5.0)
+    multi_json (1.11.2)
+    oga (1.3.1)
+      ast
+      ruby-ll (~> 2.1)
+    pg (0.18.2)
+    queenshop (0.0.5)
+    rack (1.6.4)
+    rack-protection (1.5.3)
+      rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
+    rake (10.4.2)
+    ruby-ll (2.1.2)
+      ansi
+      ast
+    safe_yaml (1.0.4)
+    sinatra (1.4.6)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    sinatra-contrib (1.4.6)
+      backports (>= 2.0)
+      multi_json
+      rack-protection
+      rack-test
+      sinatra (~> 1.4.0)
+      tilt (>= 1.3, < 3)
+    sqlite3 (1.3.10)
+    thin (1.6.4)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0, >= 1.0.4)
+      rack (~> 1.0)
+    tilt (2.0.1)
+    vcr (2.9.3)
+    webmock (1.21.0)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  iconv
+  json
+  minitest
+  minitest-rg
+  oga
+  pg
+  queenshop
+  rack
+  rack-test
+  rake
+  sinatra
+  sinatra-contrib
+  sqlite3
+  thin
+  vcr
+  webmock
+
+BUNDLED WITH
+   1.10.6
