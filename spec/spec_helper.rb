@@ -1,7 +1,6 @@
-#!/usr/bin/env ruby
 ENV['RACK_ENV'] = 'test'
 
-require ::File.expand_path('../../config/environment', __FILE__)
+require ::File.expand_path('../../config/environments', __FILE__)
 require 'minitest/autorun'
 require 'minitest/rg'
 require 'rack/test'
@@ -9,7 +8,6 @@ require 'vcr'
 require 'bundler/setup'
 require 'webmock/minitest'
 require 'yaml'
-#require_relative '../app'
 
 include Rack::Test::Methods
 
@@ -18,7 +16,7 @@ PASSED_TESTS = {'page1'=> {pages: '1'}}
 FAIL_TEST = ['mmjjhii33.99023j9893'] # will do later to call random
 
 def app
-  QueenShopApi::SinatraApp
+  SinatraApp
 end
 
 def random_str(n)

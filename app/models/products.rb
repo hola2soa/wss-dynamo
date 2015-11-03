@@ -45,7 +45,7 @@ class Products
     params.push("price=#{price}") if !price.empty?
     params.push("item=#{item}") if !item.empty?
     params.push("pages=#{pages}") if !pages.empty?
-    @products = load_items (params)
+    @products = load_items(params)
   end
 
   def to_json
@@ -64,11 +64,8 @@ class Products
     scraper.scrape(params).each do |item|
       # need iconv here, not sure icon charset still not kept
       # eventhough it was specified in the scraper api
-      item[:title] = ic.iconv(item[:title])
       item_list[item[:title]] = item[:price]
       @prices.push(item[:price])
     end
   end
 end
-
-# puts Products.new('10').items

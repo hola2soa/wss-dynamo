@@ -12,7 +12,7 @@ end
 
 describe 'Getting cadet information' do
   it 'should return their prices' do
-    get '/api/v1/qs/10.json'
+    get '/api/v1/queenshop/10.json'
     last_response.must_be :ok?
   end
 
@@ -31,7 +31,7 @@ describe 'Checking items for prices' do
       pages: '1..5'
     }
 
-    post '/api/v1/check', body.to_json, header
+    post '/api/v1/queenshop/check', body.to_json, header
     last_response.must_be :ok?
   end
   it 'should return 404 for unknown items' do
@@ -41,7 +41,7 @@ describe 'Checking items for prices' do
       prices: ['800']
     }
 
-    post '/api/v1/check', body.to_json, header
+    post '/api/v1/queenshop/check', body.to_json, header
     last_response.must_be :not_found?
   end
 
@@ -49,23 +49,7 @@ describe 'Checking items for prices' do
     header = { 'CONTENT_TYPE' => 'application/json' }
     body = random_str(50)
 
-    post '/api/v1/check', body, header
+    post '/api/v1/queenshop/check', body, header
     last_response.must_be :bad_request?
   end
 end
-
-=begin
-describe 'Get item information' do
-	PASSED_TESTS.each_pair do |test, params|
-		it "must be identical to the file #{test}" do
-			VCR.use_cassette("#{test}") do
-				test_info = File.read("./spec/fixtures/#{test}")
-				header = { 'CONTENT_TYPE' => 'application/json' }
-    		body = params
-				post '/happy/', body.to_json, header
-					last_response.body.must_equal test_info
-			end
-		end
-  end
-end
-=end
