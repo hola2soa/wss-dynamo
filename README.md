@@ -8,7 +8,7 @@ A simple version of web service that scrapes QueenShop data using the
 Handles:
 - GET   /
   - returns OK status to indicate service is alive
-- GET   api/v1/queenshop/<item>.json
+- GET   api/v1/queenshop/\<item\>.json
   - returns JSON of items info: (full title and price)
 - POST  /api/v1/queenshop/check
   - takes JSON: array of 'items', array of 'prices'
