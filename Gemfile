@@ -1,6 +1,5 @@
 source 'http://rubygems.org'
-
-#ruby '2.2.0'
+ruby '2.2.3'
 
 gem 'sinatra'
 gem 'sinatra-contrib'
@@ -9,6 +8,10 @@ gem 'queenshop'
 gem 'json'
 gem 'oga'
 gem 'iconv'
+
+gem 'activerecord'
+gem 'sinatra-activerecord'
+gem 'tux'
 
 group :production do
   gem 'pg'

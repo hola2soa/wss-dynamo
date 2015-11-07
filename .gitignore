@@ -1,3 +1,4 @@
+# all backup files
 *~
 
 # bundler
@@ -5,3 +6,6 @@
 
 # testfiles
 spec/fixtures/vcr_cassettes/
+
+# database
+app/db/*.db
