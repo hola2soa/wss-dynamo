@@ -1,6 +1,7 @@
 require 'rake/testtask'
 require 'sinatra/activerecord/rake'
 require 'rake/testtask'
+require ::File.expand_path('../config/environments', __FILE__)
 
 task :default => :spec
 
