@@ -17,7 +17,7 @@ describe 'Getting cadet information' do
   end
 
   it 'should return 404 for unknown items' do
-    get "/api/v1/check/#{random_str(20)}.json"
+    get "/api/v1/query/#{random_str(20)}.json"
     last_response.must_be :not_found?
   end
 end
@@ -31,7 +31,7 @@ describe 'Checking items for prices' do
       pages: '1..5'
     }
 
-    post '/api/v1/queenshop/check', body.to_json, header
+    post '/api/v1/queenshop/query', body.to_json, header
     last_response.must_be :ok?
   end
   it 'should return 404 for unknown items' do
@@ -41,7 +41,7 @@ describe 'Checking items for prices' do
       prices: ['800']
     }
 
-    post '/api/v1/queenshop/check', body.to_json, header
+    post '/api/v1/queenshop/query', body.to_json, header
     last_response.must_be :not_found?
   end
 
@@ -49,7 +49,7 @@ describe 'Checking items for prices' do
     header = { 'CONTENT_TYPE' => 'application/json' }
     body = random_str(50)
 
-    post '/api/v1/queenshop/check', body, header
+    post '/api/v1/queenshop/query', body, header
     last_response.must_be :bad_request?
   end
 end

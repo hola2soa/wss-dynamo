@@ -36,7 +36,7 @@ end
 class Products
   attr_reader :products
   attr_reader :prices
-  def initialize (item='', price='', pages='')
+  def initialize(item = '', price = '', pages = '')
     params = []
     @products = []
     @prices = []
@@ -56,11 +56,11 @@ class Products
 
   private
 
-  def load_items (params = [])
+  def load_items(params = [])
     item_list = ItemList.new
     scraper = QueenShopScraper::Filter.new
-    ic = Iconv.new('UTF-8','BIG5')
-    # records = ic.iconv(scraper.scrape(params)) 
+    # ic = Iconv.new('UTF-8', 'BIG5')
+    # records = ic.iconv(scraper.scrape(params))
     scraper.scrape(params).each do |item|
       # need iconv here, not sure icon charset still not kept
       # eventhough it was specified in the scraper api
