@@ -26,13 +26,31 @@ describe 'Checking items for prices' do
   it 'should find matching prices' do
     header = { 'CONTENT_TYPE' => 'application/json' }
     body = {
-      items: ['M', 'S'],
-      prices: ['290','250'],
-      pages: '1..5'
+      items: ['blouse'],
+      prices: ['390','490'],
+      pages: '1..7'
     }
 
+    # checking for redirect
     post '/api/v1/queenshop/query', body.to_json, header
-    last_response.must_be :ok?
+    last_response.must_be :redirect?
+    next_location = last_response.location
+    next_location.must_match %r{api\/v1\/queenshop\/query\/\d+}
+
+    # get request
+    request_id = next_location.scan(%r{query\/(\d+)}).flatten[0].to_i
+    stored_request = Request.find(request_id)
+    JSON.parse(stored_request[:items]).must_equal body[:items]
+    # JSON.parse(stored_request[:prices]).must_equal body[:prices]
+
+    # verify redirect
+    VCR.use_cassette('happy_request') do
+      follow_redirect!
+    end
+    last_request.url.must_match %r{api\/v1\/queenshop\/query\/\d+}
+
+    # check response from get
+    JSON.parse(last_response.body).count.must_be :>, 0
   end
   it 'should return 404 for unknown items' do
     header = { 'CONTENT_TYPE' => 'application/json' }
@@ -42,6 +60,12 @@ describe 'Checking items for prices' do
     }
 
     post '/api/v1/queenshop/query', body.to_json, header
+    last_response.must_be :redirect?
+
+    # verify redirect
+    VCR.use_cassette('sad_request') do
+      follow_redirect!
+    end
     last_response.must_be :not_found?
   end
 

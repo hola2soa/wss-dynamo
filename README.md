@@ -9,8 +9,9 @@ Handles:
 - GET   /
   - returns OK status to indicate service is alive
 - GET   api/v1/queenshop/\<item\>.json
-  - returns JSON of items info: (full title and price)
-- POST  /api/v1/queenshop/check
+  - returns JSON of items info: (titles and prices)
+- GET   api/v1/queenshop/query\<integer\>
+  - returns JSON of items info: (id, items, prices, pages)
+- POST  /api/v1/queenshop/query
   - takes JSON: array of 'items', array of 'prices'
-  - returns: array of items with corresponding array 
-    of prices if they are found on the website
+  - returns: redirects (303) to GET /api/v1/queenshop/<some integer>

@@ -25,7 +25,7 @@ module Api
 
           if request.save
             status 201
-            redirect "/api/v1/queenshop/check/#{request.id}", 303
+            redirect "/api/v1/queenshop/query/#{request.id}", 303
           else
             logger.error 'Error saving request to database'
             halt 500, 'Error saving request request to the database'
@@ -50,6 +50,10 @@ module Api
             logger.error 'Lookup of Queenshop failed'
             halt 500, 'Lookup of Queenshop failed'
           end
+
+          { id: request.id, items: items,
+            prices: prices, pages: pages
+          }.to_json
         end
 
         app.get '/:item', &show
