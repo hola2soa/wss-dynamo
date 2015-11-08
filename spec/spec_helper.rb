@@ -12,7 +12,7 @@ require 'yaml'
 include Rack::Test::Methods
 
 # params file => parameters hash
-PASSED_TESTS = {'page1'=> {pages: '1'}}
+PASSED_TESTS = { 'page1' => { pages: '1' } }
 FAIL_TEST = ['mmjjhii33.99023j9893'] # will do later to call random
 
 def app
@@ -25,12 +25,10 @@ def random_str(n)
 end
 
 VCR.configure do |config|
-	config.cassette_library_dir = 'spec/fixtures/cassette'
+  config.cassette_library_dir = 'spec/fixtures/cassette'
   config.hook_into :webmock
 end
 
 def load_yml(file_path)
-	YAML.load(File.read(file_path))
+  YAML.load(File.read(file_path))
 end
-
-
