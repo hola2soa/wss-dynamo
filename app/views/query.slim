@@ -18,8 +18,13 @@
             - @prices.join("\r\n")
         - else
           textarea id='check-prices' name='prices' rows='10' cols='15'
-
+  dl class='user-input'
+      dt
+        label for='check-pages'  pages 
+      dd
+        - if @pages
+          textarea cols="35" id="check-pages" name="pages" rows="10"
 .float-clear
-      input type='submit' value='submit' id='check-submit' class='submit'
+input type='submit' value='submit' id='check-submit' class='submit'
     
- 
+  
