@@ -83,7 +83,7 @@ class SinatraApp < Sinatra::Base
 		prices = params[:prices].split("\r\n")
 		pages = params[:pages].split("\r\n")
 		items = params[:items].split("\r\n")
-		
+=begin		
 		params_h = {
 		  prices: prices,
 		  pages: pages,
@@ -106,6 +106,7 @@ class SinatraApp < Sinatra::Base
 		session[:results] = result.to_json
 		session[:action] = :create
 		redirect "/query/#{id}"
+=end
 	end
 	
 	
