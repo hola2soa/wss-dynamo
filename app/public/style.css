@@ -50,6 +50,10 @@ table.center {
 	clear: both;
 }
 
+textarea.tutorial {
+	rows: 10;
+	cols: 35;
+}
 
 section {
 	background: #EDEDED;
@@ -62,7 +66,14 @@ div.flash {
 	background: #FF0000;
 }
 
+/*Header*/
 
+#header_wrapper {
+	overflow: hidden;
+	padding: 5em 0em;
+	background: #8DCB89 url(header.jpg) no-repeat center;
+	background-size: cover;
+}
 
 /*Menu*/
 #menu ul
