@@ -45,7 +45,7 @@ class SinatraApp < Sinatra::Base
 	  
 	  
 	  
-	get_show = lambda do
+	app_get_show = lambda do
 		@item=params[:item]
 		if @item
 		  redirect "/show/#{@item}"
@@ -56,7 +56,7 @@ class SinatraApp < Sinatra::Base
 	
 	end
 	
-	get_show_item = lambda do
+	app_get_show_item = lambda do
 		@item = params[:item]
 		@products = get_items(@item)
 
@@ -70,14 +70,14 @@ class SinatraApp < Sinatra::Base
 	end
 	
 	
-	get_query = lambda do
+	app_get_query = lambda do
 		@action = :create
 		slim :query
 	end
   
   
   
-	post_query  = lambda do
+	app_post_query  = lambda do
 		request_url = "#{settings.api_server}/#{settings.api_ver}/query"
 		prices = params[:prices].split("\r\n")
 		pages = params[:pages].split("\r\n")
@@ -108,7 +108,7 @@ class SinatraApp < Sinatra::Base
 	end
 	
 	
-	get_query_id = lambda do
+	app_get_query_id = lambda do
 		if session[:action] == :create
 		  @results = JSON.parse(session[:results])
 		else
@@ -130,7 +130,7 @@ class SinatraApp < Sinatra::Base
 		slim :query
 	end
 	
-	delete_query_id = lambda do
+	app_delete_query_id = lambda do
 		request_url = "#{settings.api_server}/#{settings.api_ver}/query/#{params[:id]}"
 		HTTParty.delete(request_url)
 		flash[:notice] = 'record of query deleted'
@@ -139,28 +139,28 @@ class SinatraApp < Sinatra::Base
 	
 	
 	
-	get '/show', &get_show
-	get '/show/:item', &get_show_item
-	get '/query', &get_query
-	post '/query', &post_query
-	get '/query/:id', &get_query_id
-	delete '/query/:id', &delete_query_id
+	get '/show', &app_get_show
+	get '/show/:item', &app_get_show_item
+	get '/query', &app_get_query
+	post '/query', &app_post_query
+	get '/query/:id', &app_get_query_id
+	delete '/query/:id', &app_delete_query_id
 
 
 	   #Web API
-		root = lambda do
+		api_root = lambda do
 		  'Hello,Queenshop is up and working.  Please see documentation at its ' \
 		  '<a href="https://github.com/hola2soa/QueenShopWebApi">' \
 		  'Github repo - master branch</a>'
 		end
 
-        show = lambda do
+        api_show = lambda do
           content_type :json
           get_items(params[:item]).to_json
         end
 		
 		
-        post_query = lambda do
+        api_post_query = lambda do
           content_type :json
           begin
             req = JSON.parse(request.body.read)
@@ -186,7 +186,7 @@ class SinatraApp < Sinatra::Base
         end
 
 		
-        get_query = lambda do
+        api_get_query = lambda do
           content_type :json
           begin
             request = Request.find(params[:id])
@@ -210,17 +210,17 @@ class SinatraApp < Sinatra::Base
           }.to_json
         end
 		
-		delete_query = lambda do
+		api_delete_query = lambda do
 			request = Request.destroy(params[:id])
 			status(request > 0 ? 200 : 404)
 		end
 		
 		
-		get '/api/v1/', &root
-        get '/api/v1/:item', &show
-        get '/api/v1/query/:id', &get_query
-        post '/api/v1/query', &post_query
-	    delete '/api/v1/query/:id', &delete_query
+		get '/api/v1/', &api_root
+        get '/api/v1/:item', &api_show
+        get '/api/v1/query/:id', &api_get_query
+        post '/api/v1/query', &api_post_query
+	    delete '/api/v1/query/:id', &api_delete_query
 	
 	
 	  
@@ -228,11 +228,11 @@ class SinatraApp < Sinatra::Base
 		register Api::V1::ApplicationController
 	  end
 
-	  namespace '/api' do
-		namespace '/v1' do
-		  namespace '/queenshop' do
-			register Api::V1::QueenshopController
-		  end
-		end
-	  end
+	#  namespace '/api' do
+	#	namespace '/v1' do
+	#	  namespace '/queenshop' do
+	#		register Api::V1::QueenshopController
+	#	  end
+	#	end
+	#  end
 end
