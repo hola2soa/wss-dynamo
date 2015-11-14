@@ -12,7 +12,7 @@ class SinatraApp < Sinatra::Base
 	  register Sinatra::Flash
 	  use Rack::MethodOverride
 
-	  set :views, File.expand_path('../../app/views', __FILE__)
+	  set :views, File.expand_path('../../app/views', __FILE__) #ok
 	  set :public_folder, File.expand_path('../../app/public', __FILE__)
 
 	  configure do
@@ -43,7 +43,20 @@ class SinatraApp < Sinatra::Base
 	  end
 	  
 	  
+		get_show = lambda do
+			#@item=params[:item]
+		#	if @item
+		#	  redirect "/show/#{@item}"
+		#	  return nil
+		#	end
+
+		#	slim :show
+		
+			slim :home
+		end
 	  
+	  get '/show', &get_show
+		
 	  namespace '/' do 
 		register Api::V1::ApplicationController
 	  end
