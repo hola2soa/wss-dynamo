@@ -10,10 +10,10 @@ module ApplicationController
 	
 	get_show = lambda do
 		@item=params[:item]
-		if @item
-		  redirect "/show/#{@item}"
-		  return nil
-		end
+	#	if @item
+	#	  redirect "/show/#{@item}"
+	#	  return nil
+	#	end
 
 		slim :show
 	end
