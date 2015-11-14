@@ -5,10 +5,10 @@
         label for='check-items'  items
       dd
         - if @items
-          textarea cols="35" id="check-items" name="items" rows="10"
+          textarea cols="15" id="check-items" name="items" rows="10"
             - @items.join("\r\n")
         - else
-          textarea id='check-items' name='items' rows='10' cols='35'
+          textarea id='check-items' name='items' rows='10' cols='15'
     dl class='user-input'
       dt
         label for='check-prices'  prices 
@@ -17,7 +17,7 @@
           textarea cols="35" id="check-prices" name="prices" rows="10"
             - @prices.join("\r\n")
         - else
-          textarea id='check-prices' name='prices' rows='10' cols='35'
+          textarea id='check-prices' name='prices' rows='10' cols='15'
 	dl class='user-input'
       dt
         label for='check-pages'  pages 
