@@ -54,7 +54,7 @@ class SinatraApp < Sinatra::Base
 	
 		slim :home
 	end
-	  	app.get '/show', &get_show
+	  	get '/show', &get_show
 	  
 	  namespace '/' do 
 		register Api::V1::ApplicationController
