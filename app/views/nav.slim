@@ -9,7 +9,14 @@
           a href='/' id='home'  Home
       - if current_page?('search')
         li class='current_page_item'
-          a href='/search' id='search'  Search
+          a href='/show' id='show'  Search
       - else
         li
-          a href='/search' id='search'  Search
+          a href='/show' id='show'  Search
+		  
+	 - if current_page?('query')
+        li class='current_page_item'
+          a href='/query' id='query'  advance search
+      - else
+        li
+          a href='/query' id='query'  advance search  
