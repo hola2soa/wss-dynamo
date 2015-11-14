@@ -41,8 +41,6 @@ form action="/query/#{@id}" method='post' id='delete-form'
           th item
           th prices 
       th pages
-    tr
-     =@item
-     =@prices
-         =@pages 
- 
+
+  - else
+    p "Enter search criteria above"   
