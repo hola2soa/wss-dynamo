@@ -7,7 +7,7 @@ require 'slim'
 
 class SinatraApp < Sinatra::Base
 	  register Sinatra::Namespace
-      helpers CadetHelpers, TutorialHelpers 
+      helpers QueenshopHelper
 	  enable :sessions
 	  register Sinatra::Flash
 	  use Rack::MethodOverride
