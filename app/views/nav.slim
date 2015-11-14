@@ -13,3 +13,9 @@
       - else
         li
           a href='/show' id='search'  Search
+	- if current_page?('search')
+        li class='current_page_item'
+          a href='/show' id='advancedsearch'  Search
+      - else
+        li
+          a href='/show' id='advancedsearch'  Search
