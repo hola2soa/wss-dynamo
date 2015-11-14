@@ -12,8 +12,8 @@ class SinatraApp < Sinatra::Base
 	  register Sinatra::Flash
 	  use Rack::MethodOverride
 
-	  set :views, File.expand_path('../../views', __FILE__)
-	  set :public_folder, File.expand_path('../../public', __FILE__)
+	  set :views, File.expand_path('../../app/views', __FILE__)
+	  set :public_folder, File.expand_path('../../app/public', __FILE__)
 
 	  configure do
 	    Hirb.enable
