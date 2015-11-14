@@ -35,5 +35,10 @@ form action="/query/#{@id}" method='post' id='delete-form'
     input type='submit' name='_method' value='delete' class='delete'
   - if @results
     h1 Results
+    tbody 
+     tr
+      th item
+      th price
+      th page
   - else
     p "Enter search criteria above"   
