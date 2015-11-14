@@ -82,20 +82,22 @@ class SinatraApp < Sinatra::Base
   
 	app_post_query  = lambda do
 		request_url = "#{settings.api_server}/#{settings.api_ver}/query"
-		prices = params[:prices].split("\r\n")
+	#	prices = params[:prices].split("\r\n")
 		pages = params[:pages].split("\r\n")
 		items = params[:items].split("\r\n")
 		
 		params_h = {
 		  prices: prices,
-		  pages: pages,
+		#  pages: pages,
 		  items: items
 		}
 
 		options =  {  body: params_h.to_json,
 					  headers: { 'Content-Type' => 'application/json' }
 				   }
+		slim:home
 
+=begin				   
 		result = HTTParty.post(request_url, options)
 
 		if (result.code != 200)
@@ -108,7 +110,7 @@ class SinatraApp < Sinatra::Base
 		session[:results] = result.to_json
 		session[:action] = :create
 		redirect "/query/#{id}"
-
+=end
 	end
 	
 	
