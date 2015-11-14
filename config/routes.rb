@@ -79,11 +79,11 @@ class SinatraApp < Sinatra::Base
   
   
 	app_post_query  = lambda do
-		request_url = "#{settings.api_server}/#{settings.api_ver}/query"
+=begin		request_url = "#{settings.api_server}/#{settings.api_ver}/query"
 		prices = params[:prices].split("\r\n")
 		pages = params[:pages].split("\r\n")
 		items = params[:items].split("\r\n")
-=begin		
+		
 		params_h = {
 		  prices: prices,
 		  pages: pages,
