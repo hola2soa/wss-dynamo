@@ -9,15 +9,13 @@ module ApplicationController
 	
 	
 	get_show = lambda do
-		#@item=params[:item]
-	#	if @item
-	#	  redirect "/show/#{@item}"
-	#	  return nil
-	#	end
+		@item=params[:item]
+		if @item
+		  redirect "/show/#{@item}"
+		  return nil
+		end
 
-	#	slim :show
-	
-		slim :home
+		slim :show
 	end
 
 	get_show_item = lambda do
@@ -103,7 +101,7 @@ module ApplicationController
 	
 	
 	app.get '/', &get_root
-	get '/show', &get_show
+	app.get '/show', &get_show
 	app.get '/show/:item', &get_show_item
 	app.get '/query', &get_query
 	app.post '/query', &post_query
