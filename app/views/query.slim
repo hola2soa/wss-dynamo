@@ -14,7 +14,7 @@
         label for='check-prices'  prices 
       dd
         - if @prices
-          textarea cols="35" id="check-prices" name="prices" rows="10"
+          textarea cols="15" id="check-prices" name="prices" rows="10"
             - @prices.join("\r\n")
         - else
           textarea id='check-prices' name='prices' rows='10' cols='15'
@@ -23,8 +23,8 @@
         label for='check-pages'  pages 
       dd
         - if @pages
-          textarea cols="35" id="check-pages" name="pages" rows="10"
+          textarea cols="15" id="check-pages" name="pages" rows="10"
             - @pages.join("\r\n")
         - else
-          textarea id='check-pages' name='pages' rows='10' cols='35'
+          textarea id='check-pages' name='pages' rows='10' cols='15'
     
