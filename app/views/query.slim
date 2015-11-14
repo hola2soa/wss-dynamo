@@ -34,13 +34,5 @@ form action="/query/#{@id}" method='post' id='delete-form'
   - if @action == :update
     input type='submit' name='_method' value='delete' class='delete'
   - if @results
-    h1 Results
-    table class='center'
-    tbody
-        tr
-          th item
-          th prices 
-      th pages
-
   - else
     p "Enter search criteria above"   
