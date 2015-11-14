@@ -44,15 +44,14 @@ class SinatraApp < Sinatra::Base
 	  
 	  
 	get_show = lambda do
-		#@item=params[:item]
-	#	if @item
-	#	  redirect "/show/#{@item}"
-	#	  return nil
-	#	end
+		@item=params[:item]
+		if @item
+		  redirect "/show/#{@item}"
+		  return nil
+		end
 
-	#	slim :show
+		slim :show
 	
-		slim :home
 	end
 	  	get '/show', &get_show
 	  
