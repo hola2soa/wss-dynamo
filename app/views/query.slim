@@ -34,5 +34,6 @@ form action="/query/#{@id}" method='post' id='delete-form'
   - if @action == :update
     input type='submit' name='_method' value='delete' class='delete'
   - if @results
+    h1 Results
   - else
     p "Enter search criteria above"   
