@@ -75,7 +75,7 @@ class SinatraApp < Sinatra::Base
 
 	#	@action = :create
 		slim :query
-	#	slim :show
+
 	end
   
   
@@ -124,7 +124,7 @@ class SinatraApp < Sinatra::Base
 			redirect '/query'
 		  end
 		end
-
+=begin
 		@id = params[:id]
 		@action = :update
 		@prices = @results['prices']
@@ -132,6 +132,8 @@ class SinatraApp < Sinatra::Base
 		@items = @results['items']
 		
 		slim :query
+=end
+		slim:show
 	end
 	
 	app_delete_query_id = lambda do
