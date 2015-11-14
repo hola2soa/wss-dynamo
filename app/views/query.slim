@@ -1,7 +1,7 @@
 .container
   form action='/query' method='post' id='check-form'
-  tr
-    th class='user-input'
+  th
+    tr class='user-input'
       dt
         label for='check-items'  items
       dd
@@ -10,7 +10,7 @@
             - @items.join("\r\n")
         - else
           textarea id='check-items' name='items' rows='10' cols='15'
-    th class='user-input'
+    tr class='user-input'
       dt
         label for='check-prices'  prices 
       dd
@@ -19,7 +19,7 @@
             - @prices.join("\r\n")
         - else
           textarea id='check-prices' name='prices' rows='10' cols='15'
-  th class='user-input'
+  tr class='user-input'
       dt
         label for='check-pages'  pages 
       dd
