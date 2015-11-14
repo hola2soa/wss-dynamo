@@ -74,8 +74,8 @@ class SinatraApp < Sinatra::Base
 	app_get_query = lambda do
 
 	#	@action = :create
-	#	slim :query
-		slim :show
+		slim :query
+	#	slim :show
 	end
   
   
