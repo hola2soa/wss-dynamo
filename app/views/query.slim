@@ -9,4 +9,13 @@
             - @items.join("\r\n")
         - else
           textarea id='check-items' name='items' rows='10' cols='35'
-   
+    dl class='user-input'
+      dt
+        label for='check-prices'  prices 
+      dd
+        - if @prices
+          textarea cols="35" id="check-prices" name="prices" rows="10"
+            - @prices.join("\r\n")
+        - else
+          textarea id='check-prices' name='prices' rows='10' cols='35'
+	
