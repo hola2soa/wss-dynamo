@@ -14,6 +14,6 @@
         -@products.each do |product_name, product_price|
           tr
             td
-              = product_name
+              = product_name["title"]
             td width='300'
-              = product_price
+              = product_name["price"]
