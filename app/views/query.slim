@@ -1,28 +1,28 @@
 .container
   form action='/query' method='post' id='check-form'
-  th
-    tr class='user-input'
-      dt
+  tr
+    th class='user-input'
+      tr
         label for='check-items'  items
-      dd
+      tr
         - if @items
           textarea cols="15" id="check-items" name="items" rows="10"
             - @items.join("\r\n")
         - else
           textarea id='check-items' name='items' rows='10' cols='15'
-    tr class='user-input'
-      dt
+    th class='user-input'
+      tr
         label for='check-prices'  prices 
-      dd
+      tr
         - if @prices
           textarea cols="15" id="check-prices" name="prices" rows="10"
             - @prices.join("\r\n")
         - else
           textarea id='check-prices' name='prices' rows='10' cols='15'
-  tr class='user-input'
-      dt
+  th class='user-input'
+      tr
         label for='check-pages'  pages 
-      dd
+      tr
         - if @pages
           textarea cols="15" id="check-pages" name="pages" rows="10"
         - else
