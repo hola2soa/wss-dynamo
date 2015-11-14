@@ -4,7 +4,7 @@ module ApplicationController
   def self.registered(app)
   
     get_root = lambda do
-		slim :home
+		#slim :home
 	end
 	
 	
