@@ -43,19 +43,7 @@ class SinatraApp < Sinatra::Base
 	  end
 	  
 	  
-		get_show = lambda do
-			#@item=params[:item]
-		#	if @item
-		#	  redirect "/show/#{@item}"
-		#	  return nil
-		#	end
 
-		#	slim :show
-		
-			slim :home
-		end
-	  
-	  get '/show', &get_show
 		
 	  namespace '/' do 
 		register Api::V1::ApplicationController

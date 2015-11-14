@@ -3,8 +3,8 @@ module V1
 module ApplicationController
   def self.registered(app)
   
-    get_root = lambda do
-		#slim :home
+    get_root = lambda do 
+		slim :home
 	end
 	
 	
@@ -103,7 +103,7 @@ module ApplicationController
 	
 	
 	app.get '/', &get_root
-	app.get '/show', &get_show
+	get '/show', &get_show
 	app.get '/show/:item', &get_show_item
 	app.get '/query', &get_query
 	app.post '/query', &post_query
