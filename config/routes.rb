@@ -72,8 +72,10 @@ class SinatraApp < Sinatra::Base
 	
 	
 	app_get_query = lambda do
-		@action = :create
-		slim :query
+
+	#	@action = :create
+	#	slim :query
+		slim :show
 	end
   
   
@@ -189,6 +191,7 @@ class SinatraApp < Sinatra::Base
 
 		
         api_get_query = lambda do
+        	
           content_type :json
           begin
             request = Request.find(params[:id])
@@ -210,6 +213,7 @@ class SinatraApp < Sinatra::Base
           { id: request.id, items: items,
             prices: prices, pages: pages
           }.to_json
+
         end
 		
 		api_delete_query = lambda do
