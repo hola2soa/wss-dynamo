@@ -138,7 +138,7 @@ class SinatraApp < Sinatra::Base
 	end
 	
 	
-	get '/', &get_root
+	
 	get '/show', &get_show
 	get '/show/:item', &get_show_item
 	get '/query', &get_query
