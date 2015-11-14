@@ -7,11 +7,29 @@ module ApplicationController
 		slim :home
 	end
 	
-	show = lambda do
+	
+	get_show = lambda do
 		@item=params[:item]
-        @products= get_items(@item)	
-		slim :show		
-    end
+		if @item
+		  redirect "/show/#{@item}"
+		  return nil
+		end
+
+		slim :show
+	end
+
+	get_show_item = lambda do
+		@item = params[:item]
+		@products = get_items(@item)
+
+		if @item && @products.nil?
+		  flash[:notice] = 'item not found' if @products.nil?
+		  redirect '/show'
+		  return nil
+		end
+
+		slim :show
+	end
 	
 	
 	get_query = lambda do
@@ -74,13 +92,21 @@ module ApplicationController
 		slim :query
 	end
 	
+	delete_query_id = lambda do
+		request_url = "#{settings.api_server}/#{settings.api_ver}/query/#{params[:id]}"
+		HTTParty.delete(request_url)
+		flash[:notice] = 'record of query deleted'
+		redirect '/query'
+	end
+	
 	
 	app.get '/', &get_root
-	app.get '/:item', &show
+	app.get '/show', &get_show
+	app.get '/show/:item', &get_show_item
 	app.get '/query', &get_query
 	app.post '/query', &post_query
 	app.get '/query/:id', &get_query_id
-	
+	app.delete '/query/:id', &delete_query_id
   end
 end
 end

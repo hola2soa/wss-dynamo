@@ -13,7 +13,7 @@ module Api
           content_type :json
           get_items(params[:item]).to_json
         end
-
+		
 		
         post_query = lambda do
           content_type :json
@@ -65,10 +65,17 @@ module Api
           }.to_json
         end
 		
+		delete_query = lambda do
+			request = Request.destroy(params[:id])
+			status(request > 0 ? 200 : 404)
+		end
+		
+		
 		app.get '/', &root
         app.get '/:item', &show
         app.get '/query/:id', &get_query
         app.post '/query', &post_query
+	    app.delete '/query/:id', &delete_query
       end
     end
   end
