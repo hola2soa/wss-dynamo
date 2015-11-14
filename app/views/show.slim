@@ -11,10 +11,10 @@
         tr
           th Name
           th Price
-        -@products.each do |product_name, product_price|
+        -@products.each do |product|
           tr
             th
-              = product_name[:title]
+              = product[:title]
             th width='300'
-              = product_name[:price]
+              = product[:price]
     
