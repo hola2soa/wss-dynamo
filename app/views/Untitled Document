@@ -1,0 +1,19 @@
+.container
+
+  form action='/:item' method='get' id='user-form'
+    input type='text' name='item' id='home-form-item' placeholder='item here...'
+    input type='submit' id='home-form-submit' class='submit' value='submit'
+  p
+
+  -if @products
+    table class='center'
+      tbody
+        tr
+          th Name
+          th Price
+        -@products.each do |product_name, product_price|
+          tr
+            td
+              = product_name
+            td width='300'
+              = product_price

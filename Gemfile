@@ -8,10 +8,18 @@ gem 'queenshop'
 gem 'json'
 gem 'oga'
 gem 'iconv'
+gem 'puma'
 
 gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'tux'
+gem 'hirb'
+
+gem 'httparty'
+
+gem 'sinatra-flash'
+gem 'slim'
+gem 'tilt'
 
 group :production do
   gem 'pg'
@@ -19,6 +27,7 @@ end
 
 group :development, :test do
   gem 'sqlite3'
+  gem 'shotgun'
 end
 
 group :test do
