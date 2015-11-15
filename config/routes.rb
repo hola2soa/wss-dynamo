@@ -81,10 +81,9 @@ class SinatraApp < Sinatra::Base
   
   
 	app_post_query  = lambda do
-		slim :home
-=begin		
+			
 		request_url = "#{settings.api_server}/#{settings.api_ver}/query"
-	#	prices = params[:prices].split("\r\n")
+		prices = params[:prices].split("\r\n")
 		pages = params[:pages].split("\r\n")
 		items = params[:items].split("\r\n")
 		
@@ -112,11 +111,12 @@ class SinatraApp < Sinatra::Base
 		session[:results] = result.to_json
 		session[:action] = :create
 		redirect "/query/#{id}"
-=end
+
 	end
 	
 	
 	app_get_query_id = lambda do
+=end
 		if session[:action] == :create
 		  @results = JSON.parse(session[:results])
 		else
@@ -128,7 +128,7 @@ class SinatraApp < Sinatra::Base
 			redirect '/query'
 		  end
 		end
-=begin
+
 		@id = params[:id]
 		@action = :update
 		@prices = @results['prices']
@@ -137,7 +137,7 @@ class SinatraApp < Sinatra::Base
 		
 		slim :query
 =end
-		slim :show
+		slim :home
 	end
 	
 	app_delete_query_id = lambda do
