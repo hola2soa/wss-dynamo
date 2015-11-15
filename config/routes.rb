@@ -52,7 +52,7 @@ class SinatraApp < Sinatra::Base
 		  redirect "/show/#{@item}"
 		  return nil
 		end
-
+		 logger.info  'My name is frank'
 		slim :show
 	
 	end
@@ -100,7 +100,8 @@ class SinatraApp < Sinatra::Base
 	
 	   
 		result = HTTParty.post(request_url, options)   #post http://powerful-basin-8880.herokuapp.com/api/v1/query"  #Application error
-	
+
+=begin	
 		if (result.code != 200)
 		  flash[:notice] = 'Could not process your request'
 		  redirect '/query'
@@ -113,7 +114,7 @@ class SinatraApp < Sinatra::Base
 		
 		
 	    redirect "/query/#{id}"
-
+=end 
 	end
 	
 	
@@ -166,18 +167,19 @@ class SinatraApp < Sinatra::Base
     api_show = lambda do
           content_type :json
           get_items(params[:item]).to_json
+		  
     end
 		
 		
     api_post_query = lambda do		
 			
-	
-          content_type :json
+		 logger.info  'Nice to meet you'
+          content_type :json 
           begin
             req = JSON.parse(request.body.read)
             logger.info req
           rescue #=> e
-            #logger.error "Error: #{e.message}"
+            logger.error "Error: #{e.message}"
             halt 400
           end
 
