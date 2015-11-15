@@ -172,7 +172,9 @@ class SinatraApp < Sinatra::Base
         end
 		
 		
-        api_post_query = lambda do
+        api_post_query = lambda do		
+			slim :show
+=begin		
           content_type :json
           begin
             req = JSON.parse(request.body.read)
@@ -195,6 +197,7 @@ class SinatraApp < Sinatra::Base
             logger.error 'Error saving request to database'
             halt 500, 'Error saving request request to the database'
           end
+=end		  
         end
 
 		
