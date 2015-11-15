@@ -81,7 +81,7 @@ class SinatraApp < Sinatra::Base
   
   
 	app_post_query  = lambda do  #1
-			
+		logger.info  'Enter app_post_query'
 		request_url = "#{settings.api_server}/#{settings.api_ver}/query"
 
 		prices = params[:prices]
@@ -100,7 +100,7 @@ class SinatraApp < Sinatra::Base
 	
 	   
 		result = HTTParty.post(request_url, options)   #post http://powerful-basin-8880.herokuapp.com/api/v1/query"  #Application error
-
+		logger.info  'app_post_query-After HTTParty.post(request_url, options)'
 
 		if (result.code != 200)
 		  flash[:notice] = 'Could not process your request'
@@ -111,7 +111,7 @@ class SinatraApp < Sinatra::Base
 		id = result.request.last_uri.path.split('/').last
 		session[:results] = result.to_json
 		session[:action] = :create
-		
+		logger.info  id
 		
 	    redirect "/query/#{id}"
 
@@ -148,7 +148,7 @@ class SinatraApp < Sinatra::Base
 	end
 	
 	
-	
+	#Web APP routes
 	get '/show', &app_get_show
 	get '/show/:item', &app_get_show_item
 	get '/query', &app_get_query
@@ -196,7 +196,8 @@ class SinatraApp < Sinatra::Base
           if requests.save
 		   logger.info  'api_post_query-requests.save'
             status 201
-            redirect "/api/v1/query/#{requests.id}", 303
+			logger.info "#{settings.api_ver}"
+            redirect "/#{settings.api_ver}/query/#{requests.id}", 303
           else
 			logger.info  'api_post_query-Error saving request to database'
             logger.error 'Error saving request to database'
@@ -238,7 +239,7 @@ class SinatraApp < Sinatra::Base
 			status(request > 0 ? 200 : 404)
 		end
 		
-		
+		#Web API routes
 		get '/api/v1/', &api_root
         get '/api/v1/:item', &api_show
         get '/api/v1/query/:id', &api_get_query_id
