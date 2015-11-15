@@ -43,8 +43,110 @@ class SinatraApp < Sinatra::Base
 		end
 	  end
 	  
+	
+	
+
+	
+	
+	
+
+	#Web API
+	api_get_root = lambda do
+		  'Hello,Queenshop is up and working.  Please see documentation at its ' \
+		  '<a href="https://github.com/hola2soa/QueenShopWebApi">' \
+		  'Github repo - master branch</a>'
+	end
+
+    api_show = lambda do
+          content_type :json
+          get_items(params[:item]).to_json
+		  
+    end
+		
+		
+    api_post_query = lambda do		
+			
+		 logger.info  'Enter api_post_query'
+          content_type :json 
+          begin
+            req = JSON.parse(request.body.read)
+            logger.info req
+          rescue => e
+            logger.error "Error: #{e.message}"
+            logger.info  'api_post_query-Error occcur1'
+			halt 400
+          end
+			 logger.info  req['items']
+			 logger.info  req['prices']
+			 logger.info  req['pages']
+			 
+          requests = Request.new(
+            items: req['items'].to_json,
+            prices: req['prices'].to_json,
+            pages: req['pages'].to_json
+          )
+
+          if requests.save
+		   logger.info  'api_post_query-requests.save'
+            status 201
+			logger.info "#{settings.api_ver}"
+			logger.info "#{requests.id}"
+            redirect "/#{settings.api_ver}/query/#{requests.id}", 303
+          else
+			logger.info  'api_post_query-Error saving request to database'
+            logger.error 'Error saving request to database'
+            halt 500, 'Error saving request request to the database'
+          end
+		 logger.info  'leave api_post_query'
+    end
+
+		
+     api_get_query = lambda do
+         logger.info  'Enter api_get_query_id'
+          content_type :json
+          begin
+            requests = Request.find(params[:id])
+            items = JSON.parse(requests.items)
+            prices = JSON.parse(requests.prices)
+            pages = JSON.parse(requests.pages)
+          rescue
+		    logger.info  'api_get_query_id-Error while fetching request from database'
+            logger.error 'Error while fetching request from database'
+            halt 400
+          end
+			
+          begin
+            results = check_items(items, prices, pages).to_json
+          rescue
+            logger.error 'Lookup of Queenshop failed'
+            halt 500, 'Lookup of Queenshop failed'
+          end
+
+          { id: requests.id, items: items,
+            prices: prices, pages: pages
+          }.to_json
+		  logger.info  'leave api_get_query_id'
+
+    end
+		
+		api_delete_query = lambda do
+			request = Request.destroy(params[:id])
+			status(request > 0 ? 200 : 404)
+		end
+		
+	#Web API routes	
+		get '/api/v1/?', &api_get_root
+        get '/api/v1/:item', &api_show
+        get '/api/v1/query/:id', &api_get_query
+        post '/api/v1/query/?', &api_post_query
+	    delete '/api/v1/query/:id', &api_delete_query
+	
+	
+	
+	
+	
 	#web APP
-	app_root = lambda do	 
+	app_get_root = lambda do	 
 		 slim :home
 	end
 	  
@@ -156,108 +258,13 @@ class SinatraApp < Sinatra::Base
 	
 	
 	#Web APP routes
-	
+	get '/', &app_get_root
 	get '/show', &app_get_show
 	get '/show/:item', &app_get_show_item
 	get '/query', &app_get_query
 	post '/query', &app_post_query
 	get '/query/:id', &app_get_query_id
 	delete '/query/:id', &app_delete_query_id
-
-	
-	
-	
-
-	#Web API
-	api_get_root = lambda do
-		  'Hello,Queenshop is up and working.  Please see documentation at its ' \
-		  '<a href="https://github.com/hola2soa/QueenShopWebApi">' \
-		  'Github repo - master branch</a>'
-	end
-
-    api_show = lambda do
-          content_type :json
-          get_items(params[:item]).to_json
-		  
-    end
-		
-		
-    api_post_query = lambda do		
-			
-		 logger.info  'Enter api_post_query'
-          content_type :json 
-          begin
-            req = JSON.parse(request.body.read)
-            logger.info req
-          rescue => e
-            logger.error "Error: #{e.message}"
-            logger.info  'api_post_query-Error occcur1'
-			halt 400
-          end
-			 logger.info  req['items']
-			 logger.info  req['prices']
-			 logger.info  req['pages']
-			 
-          requests = Request.new(
-            items: req['items'].to_json,
-            prices: req['prices'].to_json,
-            pages: req['pages'].to_json
-          )
-
-          if requests.save
-		   logger.info  'api_post_query-requests.save'
-            status 201
-			logger.info "#{settings.api_ver}"
-			logger.info "#{requests.id}"
-            redirect "/#{settings.api_ver}/query/#{requests.id}", 303
-          else
-			logger.info  'api_post_query-Error saving request to database'
-            logger.error 'Error saving request to database'
-            halt 500, 'Error saving request request to the database'
-          end
-		 logger.info  'leave api_post_query'
-    end
-
-		
-     api_get_query = lambda do
-         logger.info  'Enter api_get_query_id'
-          content_type :json
-          begin
-            requests = Request.find(params[:id])
-            items = JSON.parse(requests.items)
-            prices = JSON.parse(requests.prices)
-            pages = JSON.parse(requests.pages)
-          rescue
-		    logger.info  'api_get_query_id-Error while fetching request from database'
-            logger.error 'Error while fetching request from database'
-            halt 400
-          end
-			
-          begin
-            results = check_items(items, prices, pages).to_json
-          rescue
-            logger.error 'Lookup of Queenshop failed'
-            halt 500, 'Lookup of Queenshop failed'
-          end
-
-          { id: requests.id, items: items,
-            prices: prices, pages: pages
-          }.to_json
-		  logger.info  'leave api_get_query_id'
-
-    end
-		
-		api_delete_query = lambda do
-			request = Request.destroy(params[:id])
-			status(request > 0 ? 200 : 404)
-		end
-		
-		#Web API routes	
-		get '/api/v1/?', &api_get_root
-        get '/api/v1/:item', &api_show
-        get '/api/v1/query/:id', &api_get_query
-        post '/api/v1/query/?', &api_post_query
-	    delete '/api/v1/query/:id', &api_delete_query
 	
 	
 	  
