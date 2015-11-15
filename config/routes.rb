@@ -125,9 +125,9 @@ class SinatraApp < Sinatra::Base
           { id: requests.id, items: items,
             prices: prices, pages: pages
           }.to_json
-		  logger.info  'leave api_get_query_id'
+		  logger.info  'leave api_get_query'
 
-    end
+	end
 		
 		api_delete_query = lambda do
 			request = Request.destroy(params[:id])
@@ -135,10 +135,10 @@ class SinatraApp < Sinatra::Base
 		end
 		
 	#Web API routes	
-		get '/api/v1/?', &api_get_root
+		get '/api/v1/', &api_get_root
         get '/api/v1/:item', &api_show
         get '/api/v1/query/:id', &api_get_query
-        post '/api/v1/query/?', &api_post_query
+        post '/api/v1/query/', &api_post_query
 	    delete '/api/v1/query/:id', &api_delete_query
 	
 	
@@ -177,9 +177,10 @@ class SinatraApp < Sinatra::Base
 	
 	
 	app_get_query = lambda do
-
+		logger.info  'Enter app_get_query'
 		@action = :create
 		slim :query
+		logger.info  'Leave app_get_query'
 
 	end
   
@@ -209,8 +210,10 @@ class SinatraApp < Sinatra::Base
 	   
 		result = HTTParty.post(request_url, options)   #post http://powerful-basin-8880.herokuapp.com/api/v1/query"  #Application error
 		logger.info  'app_post_query-After HTTParty.post(request_url, options)'
-
+				
+		
 		if (result.code != 200)
+		  logger.info 'Could not process your request'
 		  flash[:notice] = 'Could not process your request'
 		  redirect '/query'
 		  return nil
@@ -221,8 +224,8 @@ class SinatraApp < Sinatra::Base
 		session[:action] = :create
 		logger.info  id
 		logger.info  'app_post_query-before redirect'
-	    redirect "/query/#{id}"
-		logger.info  'leave app_post_query'
+	    redirect "/query/#{id}" ,303  #redirect get '/query' - app_get_query
+		logger.info  'Leave app_post_query'
 	end
 	
 	
@@ -236,7 +239,7 @@ class SinatraApp < Sinatra::Base
 		  @results = HTTParty.get(request_url, options)
 		  if @results.code != 200
 			flash[:notice] = 'cannot find item of query'
-			redirect '/query'
+			redirect '/query',303  #redirect   get '/query' - app_get_query
 		  end
 		end
 
