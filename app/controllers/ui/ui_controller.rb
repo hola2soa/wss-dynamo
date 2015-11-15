@@ -1,5 +1,5 @@
 module UI
-module ApplicationController
+module Show
   def self.registered(app)
     app_get_show = lambda do
       @item = params[:item]

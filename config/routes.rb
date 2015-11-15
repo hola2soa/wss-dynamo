@@ -8,7 +8,11 @@ class SinatraApp < Sinatra::Base
 	end
 
   namespace '/show' do
-		register UI::ApplicationController
+		register UI::Show
+	end
+
+	namespace '/query' do
+		register UI::Query
 	end
 
   namespace '/api' do
