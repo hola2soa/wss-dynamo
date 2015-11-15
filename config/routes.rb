@@ -43,8 +43,10 @@ class SinatraApp < Sinatra::Base
 		end
 	  end
 	  
-	  
-	  
+	#web APP
+	app_root = lambda do	 
+		 slim :home
+	end
 	  
 	app_get_show = lambda do
 		@item=params[:item]
@@ -71,6 +73,7 @@ class SinatraApp < Sinatra::Base
 	end
 	
 	
+	
 	app_get_query = lambda do
 
 		@action = :create
@@ -82,8 +85,11 @@ class SinatraApp < Sinatra::Base
   
 	app_post_query  = lambda do  #1
 		logger.info  'Enter app_post_query'
+		
 		request_url = "#{settings.api_server}/#{settings.api_ver}/query"
-
+		logger.info "#{settings.api_server}"
+		
+		
 		prices = params[:prices]
 		pages = params[:pages]
 		items = params[:items]
@@ -150,6 +156,7 @@ class SinatraApp < Sinatra::Base
 	
 	
 	#Web APP routes
+	
 	get '/show', &app_get_show
 	get '/show/:item', &app_get_show_item
 	get '/query', &app_get_query
@@ -157,9 +164,12 @@ class SinatraApp < Sinatra::Base
 	get '/query/:id', &app_get_query_id
 	delete '/query/:id', &app_delete_query_id
 
+	
+	
+	
 
 	#Web API
-	api_root = lambda do
+	api_get_root = lambda do
 		  'Hello,Queenshop is up and working.  Please see documentation at its ' \
 		  '<a href="https://github.com/hola2soa/QueenShopWebApi">' \
 		  'Github repo - master branch</a>'
@@ -209,7 +219,7 @@ class SinatraApp < Sinatra::Base
     end
 
 		
-     api_get_query_id = lambda do
+     api_get_query = lambda do
          logger.info  'Enter api_get_query_id'
           content_type :json
           begin
@@ -242,18 +252,18 @@ class SinatraApp < Sinatra::Base
 			status(request > 0 ? 200 : 404)
 		end
 		
-		#Web API routes
-		get '/api/v1/?', &api_root
+		#Web API routes	
+		get '/api/v1/?', &api_get_root
         get '/api/v1/:item', &api_show
-        get '/api/v1/query/:id', &api_get_query_id
+        get '/api/v1/query/:id', &api_get_query
         post '/api/v1/query/?', &api_post_query
 	    delete '/api/v1/query/:id', &api_delete_query
 	
 	
 	  
-	  namespace '/' do 
-		register Api::V1::ApplicationController
-	  end
+	#  namespace '/' do 
+	#	register Api::V1::ApplicationController
+	#  end
 
 	#  namespace '/api' do
 	#	namespace '/v1' do
