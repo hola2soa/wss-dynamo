@@ -96,8 +96,8 @@ class SinatraApp < Sinatra::Base
 		options =  {  body: params_h.to_json,
 					  headers: { 'Content-Type' => 'application/json' }
 				   }
-
-			   
+		slim :home
+=begin		   
 		result = HTTParty.post(request_url, options)
 
 		if (result.code != 200)
@@ -110,9 +110,9 @@ class SinatraApp < Sinatra::Base
 		session[:results] = result.to_json
 		session[:action] = :create
 		
-		slim :home
-		# redirect "/query/#{id}"
-
+		
+	    redirect "/query/#{id}"
+=end
 	end
 	
 	
