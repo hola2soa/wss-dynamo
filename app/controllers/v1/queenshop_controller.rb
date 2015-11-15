@@ -2,19 +2,11 @@ module Api
   module V1
     module QueenshopController
       def self.registered(app)
-	  
-		root = lambda do
-		  'Hello,Queenshop is up and working.  Please see documentation at its ' \
-		  '<a href="https://github.com/hola2soa/QueenShopWebApi">' \
-		  'Github repo - master branch</a>'
-		end
-
         show = lambda do
           content_type :json
           get_items(params[:item]).to_json
         end
-		
-		
+
         post_query = lambda do
           content_type :json
           begin
@@ -40,7 +32,6 @@ module Api
           end
         end
 
-		
         get_query = lambda do
           content_type :json
           begin
@@ -64,18 +55,10 @@ module Api
             prices: prices, pages: pages
           }.to_json
         end
-		
-		delete_query = lambda do
-			request = Request.destroy(params[:id])
-			status(request > 0 ? 200 : 404)
-		end
-		
-		
-		app.get '/', &root
+
         app.get '/:item', &show
         app.get '/query/:id', &get_query
         app.post '/query', &post_query
-	    app.delete '/query/:id', &delete_query
       end
     end
   end

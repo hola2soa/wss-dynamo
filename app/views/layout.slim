@@ -1,13 +1,13 @@
 doctype 5
 html
- head 
-  title QueenShopWeb information
-  link rel='stylesheet' type='text/css' href='./style.css'
- body 
-  header
-   ==slim :nav
-  section
-   ==styled_flash
-   ==yield
-  .footer
-   == slim :footer
+  head
+    title QueenShopWeb information
+    link rel='stylesheet' type='text/css' href='/style.css'
+  body
+    header
+      == slim :nav
+    section
+      == styled_flash
+      == yield
+    .footer
+      == slim :footer
