@@ -101,7 +101,7 @@ class SinatraApp < Sinatra::Base
 	   
 		result = HTTParty.post(request_url, options)   #post http://powerful-basin-8880.herokuapp.com/api/v1/query"  #Application error
 
-=begin	
+
 		if (result.code != 200)
 		  flash[:notice] = 'Could not process your request'
 		  redirect '/query'
@@ -114,7 +114,7 @@ class SinatraApp < Sinatra::Base
 		
 		
 	    redirect "/query/#{id}"
-=end 
+
 	end
 	
 	
@@ -178,7 +178,7 @@ class SinatraApp < Sinatra::Base
           begin
             req = JSON.parse(request.body.read)
             logger.info req
-          rescue #=> e
+          rescue => e
             logger.error "Error: #{e.message}"
             logger.info  'api_post_query-Error occcur1'
 			halt 400
@@ -189,13 +189,14 @@ class SinatraApp < Sinatra::Base
 			 
           requests = Request.new(
             items: req['items'].to_json,
-            prices: req['prices'].to_json
+            prices: req['prices'].to_json,
+            pages: req['pages'].to_json
           )
 
           if requests.save
 		   logger.info  'api_post_query-requests.save'
             status 201
-            redirect "/api/v1/query/#{request.id}", 303
+            redirect "/api/v1/query/#{requests.id}", 303
           else
 			logger.info  'api_post_query-Error saving request to database'
             logger.error 'Error saving request to database'
@@ -209,10 +210,10 @@ class SinatraApp < Sinatra::Base
          logger.info  'Enter api_get_query_id'
           content_type :json
           begin
-            request = Request.find(params[:id])
-            items = JSON.parse(request.items)
-            prices = JSON.parse(request.prices)
-            pages = JSON.parse(request.pages)
+            requests = Request.find(params[:id])
+            items = JSON.parse(requests.items)
+            prices = JSON.parse(requests.prices)
+            pages = JSON.parse(requests.pages)
           rescue
 		    logger.info  'api_get_query_id-Error while fetching request from database'
             logger.error 'Error while fetching request from database'
@@ -226,7 +227,7 @@ class SinatraApp < Sinatra::Base
             halt 500, 'Lookup of Queenshop failed'
           end
 
-          { id: request.id, items: items,
+          { id: requests.id, items: items,
             prices: prices, pages: pages
           }.to_json
 
