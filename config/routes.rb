@@ -193,8 +193,8 @@ class SinatraApp < Sinatra::Base
             pages: req['pages'].to_json
           )
 
-          if request.save
-		   logger.info  'api_post_query-request.save'
+          if requests.save
+		   logger.info  'api_post_query-requests.save'
             status 201
             redirect "/api/v1/query/#{request.id}", 303
           else
