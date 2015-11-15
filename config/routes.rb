@@ -116,7 +116,7 @@ class SinatraApp < Sinatra::Base
 	
 	
 	app_get_query_id = lambda do
-=end
+=begin
 		if session[:action] == :create
 		  @results = JSON.parse(session[:results])
 		else
