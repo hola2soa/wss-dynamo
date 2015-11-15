@@ -73,7 +73,7 @@ class SinatraApp < Sinatra::Base
 	
 	app_get_query = lambda do
 
-	#	@action = :create
+		@action = :create
 		slim :query
 
 	end
@@ -81,7 +81,7 @@ class SinatraApp < Sinatra::Base
   
   
 	app_post_query  = lambda do
-		slim:home
+		slim :home
 =begin		
 		request_url = "#{settings.api_server}/#{settings.api_ver}/query"
 	#	prices = params[:prices].split("\r\n")
@@ -137,7 +137,7 @@ class SinatraApp < Sinatra::Base
 		
 		slim :query
 =end
-		slim:show
+		slim :show
 	end
 	
 	app_delete_query_id = lambda do
