@@ -20,13 +20,13 @@
           textarea id='check-prices' name='prices' rows='10' cols='35'
 		  dl class='user-input'
       dt
-        label for='check-prices'  prices 
+        label for='check-pages'  pages 
       dd
-        - if @prices
-          textarea cols="35" id="check-prices" name="prices" rows="10"
-            - @prices.join("\r\n")
+        - if @pages
+          textarea cols="35" id="check-pages" name="pages" rows="10"
+            - @pages.join("\r\n")
         - else
-          textarea id='check-prices' name='prices' rows='10' cols='35'
+          textarea id='check-pages' name='pages' rows='10' cols='35'
     .float-clear
       input type='submit' value='submit' id='check-submit' class='submit'
 form action="/query/#{@id}" method='post' id='delete-form'
