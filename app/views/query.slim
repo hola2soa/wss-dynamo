@@ -11,7 +11,7 @@
           textarea id='check-items' name='items' rows='10' cols='35'
     dl class='user-input'
       dt
-        label for='check-prices'  prices 
+        label for='check-prices'  prices
       dd
         - if @prices
           textarea cols="35" id="check-prices" name="prices" rows="10"
@@ -20,26 +20,28 @@
           textarea id='check-prices' name='prices' rows='10' cols='35'
 		  dl class='user-input'
       dt
-        label for='check-pages'  pages 
+        label for='check-pages'  pages
       dd
         - if @pages
-          textarea cols="35" id="check-pages" name="pages" rows="10"
-            - @pages.join("\r\n")
+          input id="check-pages" name="pages"
+            - @pages
         - else
-          textarea id='check-pages' name='pages' rows='10' cols='35'
+          input id="check-pages" name="pages"
     .float-clear
       input type='submit' value='submit' id='check-submit' class='submit'
+
 form action="/query/#{@id}" method='post' id='delete-form'
   - if @action == :update
-    input type='submit' name='_method' value='delete' class='delete'
+    center
+      input type='submit' name='_method' value='delete' class='delete'
   - if @results
-    h1 Results
-    tbody 
-     tr
-      th item
-      th price
-      th page
-     tr
-      =@items 
+    center
+      h1 Results
+      tbody
+       tr
+        th items
+        th price
+      = @results
   - else
-    p "Enter search criteria above"   
+      center
+        p "Enter search criteria above"

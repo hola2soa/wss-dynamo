@@ -23,10 +23,8 @@ module Api
             pages: req['pages']
           )
 
-          logger.info 'request .....'
-
           if request.save
-            logger.info 'redirecting ....????'
+            logger.info 'about to redirect----------------------'
             status 201
             redirect "/api/v1/queenshop/query/#{request.id}", 303
           else
@@ -38,7 +36,6 @@ module Api
         get_query = lambda do
           content_type :json
           begin
-            logger.info '-------------------------------------'
             request = Request.find(params[:id])
             items = JSON.parse(request.items)
             prices = JSON.parse(request.prices)
@@ -48,25 +45,29 @@ module Api
             halt 400
           end
 
-          clean_prices = prices.map(&:to_i)
-
-          logger.info 'clean prices', clean_prices
-
           begin
-            check_items(items, clean_prices, pages).to_json
+            results = check_items(items, prices, pages).to_json
           rescue
             logger.error 'Lookup of Queenshop failed'
             halt 500, 'Lookup of Queenshop failed'
           end
 
           { id: request.id, items: items,
-            prices: prices, pages: pages
+            prices: prices, pages: pages,
+            found: [results].to_json
           }.to_json
         end
+
+        delete_query = lambda do
+          tutorial = Tutorial.destroy(params[:id])
+          status(tutorial > 0 ? 200 : 404)
+        end
+
 
         app.get '/:item', &show
         app.get '/query/:id', &get_query
         app.post '/query', &post_query
+        app.delete '/query', &delete_query
       end
     end
   end

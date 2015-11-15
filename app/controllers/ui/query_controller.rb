@@ -3,7 +3,7 @@ module Query
   def self.registered(app)
     app_get_query = lambda do
       logger.info 'Enter app_get_query'
-      #	@action = :create
+      @action = :create
       logger.info 'Leave app_get_query'
       slim :query
     end
@@ -14,9 +14,9 @@ module Query
       request_url = "#{settings.api_server}/#{settings.api_ver}/queenshop/query"
       logger.info "#{settings.api_server}"
 
-      prices = params[:prices].split "\n"
+      prices = params[:prices].split "\r\n"
       pages = params[:pages]
-      items = params[:items].split "\n"
+      items = params[:items].split "\r\n"
 
       prices.map(&:to_i)
 
@@ -37,7 +37,6 @@ module Query
 
       result = HTTParty.post(request_url, options)
       logger.info 'app_post_query-After HTTParty.post(request_url, options)'
-
 
       if result.code != 200
         logger.info 'Could not process your request'
@@ -60,8 +59,9 @@ module Query
       if session[:action] == :create
         @results = JSON.parse(session[:results])
       else
-        request_url = "#{settings.api_server}/#{settings.api_ver}/query/#{params[:id]}"
+        request_url = "#{settings.api_server}/#{settings.api_ver}/queenshop/query/#{params[:id]}"
         options =  { headers: { 'Content-Type' => 'application/json' } }
+        logger.info request_url
         @results = HTTParty.get(request_url, options)
         if @results.code != 200
           flash[:notice] = 'cannot find item of query'
@@ -78,11 +78,19 @@ module Query
       slim :query
     end
 
+    delete_query = lambda do
+    request_url = "#{settings.api_server}/#{settings.api_ver}/queenshop/query/#{params[:id]}"
+    HTTParty.delete(request_url)
+    flash[:notice] = 'record of request deleted'
+    redirect '/query'
+  end
+
     # routes
     # TODO: look for a gem that takes care of routes trailing /
     app.get '/?', &app_get_query
-    app.post '', &app_post_query
     app.get '/:id', &app_get_query_id
+    app.post '', &app_post_query
+    app.delete '/:id', &delete_query
   end
 end
 end
