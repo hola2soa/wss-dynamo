@@ -80,7 +80,7 @@ class SinatraApp < Sinatra::Base
   
   
   
-	app_post_query  = lambda do
+	app_post_query  = lambda do  #1
 			
 	#	request_url = "#{settings.api_server}/#{settings.api_ver}/query"
 		request_url = "http://powerful-basin-8880.herokuapp.com/api/v1/query"
@@ -99,9 +99,9 @@ class SinatraApp < Sinatra::Base
 				   }
 	
 	   
-		result = HTTParty.post(request_url, options)
+		result = HTTParty.post(request_url, options)   #post http://powerful-basin-8880.herokuapp.com/api/v1/query"
 		slim :home
-=begin	
+=begin		
 		if (result.code != 200)
 		  flash[:notice] = 'Could not process your request'
 		  redirect '/query'
@@ -174,7 +174,7 @@ class SinatraApp < Sinatra::Base
 		
 		
         api_post_query = lambda do		
-			slim :show
+			
 =begin		
           content_type :json
           begin
