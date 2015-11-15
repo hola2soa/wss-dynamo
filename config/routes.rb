@@ -89,14 +89,13 @@ class SinatraApp < Sinatra::Base
 		
 		params_h = {
 		  prices: prices,
-		#  pages: pages,
+		  pages: pages,
 		  items: items
 		}
 
 		options =  {  body: params_h.to_json,
 					  headers: { 'Content-Type' => 'application/json' }
 				   }
-		slim:home
 
 			   
 		result = HTTParty.post(request_url, options)
@@ -110,7 +109,9 @@ class SinatraApp < Sinatra::Base
 		id = result.request.last_uri.path.split('/').last
 		session[:results] = result.to_json
 		session[:action] = :create
-		redirect "/query/#{id}"
+		
+		slim :home
+		# redirect "/query/#{id}"
 
 	end
 	
