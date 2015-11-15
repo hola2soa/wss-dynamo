@@ -82,8 +82,8 @@ class SinatraApp < Sinatra::Base
   
 	app_post_query  = lambda do  #1
 			
-	#	request_url = "#{settings.api_server}/#{settings.api_ver}/query"
-		request_url = "http://powerful-basin-8880.herokuapp.com/api/v1/query"
+		request_url = "#{settings.api_server}/#{settings.api_ver}/query"
+
 		prices = params[:prices]
 		pages = params[:pages]
 		items = params[:items]
@@ -100,8 +100,7 @@ class SinatraApp < Sinatra::Base
 	
 	   
 		result = HTTParty.post(request_url, options)   #post http://powerful-basin-8880.herokuapp.com/api/v1/query"
-		slim :home
-=begin		
+	
 		if (result.code != 200)
 		  flash[:notice] = 'Could not process your request'
 		  redirect '/query'
@@ -114,12 +113,11 @@ class SinatraApp < Sinatra::Base
 		
 		
 	    redirect "/query/#{id}"
-=end
+
 	end
 	
 	
 	app_get_query_id = lambda do
-=begin
 		if session[:action] == :create
 		  @results = JSON.parse(session[:results])
 		else
@@ -139,8 +137,6 @@ class SinatraApp < Sinatra::Base
 		@items = @results['items']
 		
 		slim :query
-=end
-		slim :home
 	end
 	
 	app_delete_query_id = lambda do
@@ -160,20 +156,20 @@ class SinatraApp < Sinatra::Base
 	delete '/query/:id', &app_delete_query_id
 
 
-	   #Web API
-		api_root = lambda do
+	#Web API
+	api_root = lambda do
 		  'Hello,Queenshop is up and working.  Please see documentation at its ' \
 		  '<a href="https://github.com/hola2soa/QueenShopWebApi">' \
 		  'Github repo - master branch</a>'
-		end
+	end
 
-        api_show = lambda do
+    api_show = lambda do
           content_type :json
           get_items(params[:item]).to_json
-        end
+    end
 		
 		
-        api_post_query = lambda do		
+    api_post_query = lambda do		
 			
 	
           content_type :json
@@ -199,7 +195,7 @@ class SinatraApp < Sinatra::Base
             halt 500, 'Error saving request request to the database'
           end
   
-        end
+    end
 
 		
         api_get_query_id = lambda do
