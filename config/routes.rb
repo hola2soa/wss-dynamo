@@ -1,11 +1,19 @@
-Dir.glob('./app/controllers/**/*.rb').each { |file| require file }
+Dir.glob('./app/controllers/*/*.rb').each { |file| require file }
 
 class SinatraApp < Sinatra::Base
-  register Sinatra::Namespace
+	register Sinatra::Namespace
 
-  namespace '/' do 
-    register Api::V1::ApplicationController
-  end
+	namespace '/' do
+		register Api::V1::ApplicationController
+	end
+
+  namespace '/show' do
+		register UI::Show
+	end
+
+	namespace '/query' do
+		register UI::Query
+	end
 
   namespace '/api' do
     namespace '/v1' do

@@ -3,10 +3,9 @@ module V1
 module ApplicationController
   def self.registered(app)
     root = lambda do
-      'Queenshop is up and working. See documentation at its ' \
-      '<a href="https://github.com/hola2soa/QueenShopWebApi">' \
-      'Github repo - master branch</a>'
+      slim :home
     end
+    # routes
     app.get '/', &root
   end
 end
