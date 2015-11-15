@@ -183,8 +183,11 @@ class SinatraApp < Sinatra::Base
             logger.info  'api_post_query-Error occcur1'
 			halt 400
           end
-
-          request = Request.new(
+			 logger.info  req['items']
+			 logger.info  req['prices']
+			 logger.info  req['pages']
+			 
+          requests = Request.new(
             items: req['items'].to_json,
             prices: req['prices'].to_json,
             pages: req['pages'].to_json
