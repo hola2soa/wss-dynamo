@@ -175,7 +175,7 @@ class SinatraApp < Sinatra::Base
 		
         api_post_query = lambda do		
 			
-=begin		
+	
           content_type :json
           begin
             req = JSON.parse(request.body.read)
@@ -193,16 +193,16 @@ class SinatraApp < Sinatra::Base
 
           if request.save
             status 201
-            redirect "/api/v1/queenshop/query/#{request.id}", 303
+            redirect "/api/v1/query/#{request.id}", 303
           else
             logger.error 'Error saving request to database'
             halt 500, 'Error saving request request to the database'
           end
-=end		  
+  
         end
 
 		
-        api_get_query = lambda do
+        api_get_query_id = lambda do
         	
           content_type :json
           begin
@@ -236,7 +236,7 @@ class SinatraApp < Sinatra::Base
 		
 		get '/api/v1/', &api_root
         get '/api/v1/:item', &api_show
-        get '/api/v1/query/:id', &api_get_query
+        get '/api/v1/query/:id', &api_get_query_id
         post '/api/v1/query', &api_post_query
 	    delete '/api/v1/query/:id', &api_delete_query
 	
