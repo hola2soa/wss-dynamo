@@ -107,18 +107,19 @@ class SinatraApp < Sinatra::Base
 		  redirect '/query'
 		  return nil
 		end
-
+		
 		id = result.request.last_uri.path.split('/').last
 		session[:results] = result.to_json
 		session[:action] = :create
 		logger.info  id
-		
+		logger.info  'app_post_query-before redirect'
 	    redirect "/query/#{id}"
-
+		logger.info  'leave app_post_query'
 	end
 	
 	
 	app_get_query_id = lambda do
+		  logger.info  'Enter app_get_query_id'
 		if session[:action] == :create
 		  @results = JSON.parse(session[:results])
 		else
@@ -136,7 +137,7 @@ class SinatraApp < Sinatra::Base
 		@prices = @results['prices']
 		@pages = @results['pages']
 		@items = @results['items']
-		
+	
 		slim :query
 	end
 	
@@ -197,13 +198,14 @@ class SinatraApp < Sinatra::Base
 		   logger.info  'api_post_query-requests.save'
             status 201
 			logger.info "#{settings.api_ver}"
+			logger.info "#{requests.id}"
             redirect "/#{settings.api_ver}/query/#{requests.id}", 303
           else
 			logger.info  'api_post_query-Error saving request to database'
             logger.error 'Error saving request to database'
             halt 500, 'Error saving request request to the database'
           end
-  
+		 logger.info  'leave api_post_query'
     end
 
 		
@@ -220,7 +222,7 @@ class SinatraApp < Sinatra::Base
             logger.error 'Error while fetching request from database'
             halt 400
           end
-
+			
           begin
             results = check_items(items, prices, pages).to_json
           rescue
@@ -231,6 +233,7 @@ class SinatraApp < Sinatra::Base
           { id: requests.id, items: items,
             prices: prices, pages: pages
           }.to_json
+		  logger.info  'leave api_get_query_id'
 
     end
 		
@@ -240,10 +243,10 @@ class SinatraApp < Sinatra::Base
 		end
 		
 		#Web API routes
-		get '/api/v1/', &api_root
+		get '/api/v1/?', &api_root
         get '/api/v1/:item', &api_show
         get '/api/v1/query/:id', &api_get_query_id
-        post '/api/v1/query', &api_post_query
+        post '/api/v1/query/?', &api_post_query
 	    delete '/api/v1/query/:id', &api_delete_query
 	
 	
