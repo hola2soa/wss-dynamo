@@ -1,5 +1,5 @@
 .container
-  form action='/query' method='post' id='check-form'
+form action='/show' method='get' id='check-form'
   tr
     th class='user-input'
       tr
@@ -19,7 +19,7 @@
             - @prices.join("\r\n")
         - else
           textarea id='check-prices' name='prices' rows='10' cols='15'
-  th class='user-input'
+    th class='user-input'
       tr
         label for='check-pages'  pages 
       tr
