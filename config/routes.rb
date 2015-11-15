@@ -96,10 +96,11 @@ class SinatraApp < Sinatra::Base
 		options =  {  body: params_h.to_json,
 					  headers: { 'Content-Type' => 'application/json' }
 				   }
-		slim :home
-=begin		   
+	
+	   
 		result = HTTParty.post(request_url, options)
-
+		slim :home
+=begin	
 		if (result.code != 200)
 		  flash[:notice] = 'Could not process your request'
 		  redirect '/query'
