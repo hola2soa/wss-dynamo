@@ -81,6 +81,8 @@ class SinatraApp < Sinatra::Base
   
   
 	app_post_query  = lambda do
+		slim:home
+=begin		
 		request_url = "#{settings.api_server}/#{settings.api_ver}/query"
 	#	prices = params[:prices].split("\r\n")
 		pages = params[:pages].split("\r\n")
@@ -97,7 +99,7 @@ class SinatraApp < Sinatra::Base
 				   }
 		slim:home
 
-=begin				   
+			   
 		result = HTTParty.post(request_url, options)
 
 		if (result.code != 200)
