@@ -19,7 +19,7 @@ class SinatraApp < Sinatra::Base
 
   configure :production do
     # set :api_server, 'http://hola2soa-api.herokuapp.com'
-    set :api_server, 'http://powerful-basin-8880.herokuapp.com'
+    set :api_server, 'https://hola2soa-api.herokuapp.com/'
   end
 
   configure do
