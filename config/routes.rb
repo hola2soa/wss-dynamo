@@ -99,7 +99,7 @@ class SinatraApp < Sinatra::Base
 				   }
 	
 	   
-		result = HTTParty.post(request_url, options)   #post http://powerful-basin-8880.herokuapp.com/api/v1/query"
+		result = HTTParty.post(request_url, options)   #post http://powerful-basin-8880.herokuapp.com/api/v1/query"  #Application error
 	
 		if (result.code != 200)
 		  flash[:notice] = 'Could not process your request'
@@ -176,15 +176,15 @@ class SinatraApp < Sinatra::Base
           begin
             req = JSON.parse(request.body.read)
             logger.info req
-          rescue => e
-            logger.error "Error: #{e.message}"
+          rescue #=> e
+            #logger.error "Error: #{e.message}"
             halt 400
           end
 
           request = Request.new(
-            items: req['items'],
-            prices: req['prices'],
-            pages: req['pages']
+            items: req['items'].to_json,
+            prices: req['prices'].to_json,
+            pages: req['pages'].to_json
           )
 
           if request.save
@@ -198,21 +198,21 @@ class SinatraApp < Sinatra::Base
     end
 
 		
-        api_get_query_id = lambda do
+     api_get_query_id = lambda do
         	
           content_type :json
           begin
             request = Request.find(params[:id])
             items = JSON.parse(request.items)
             prices = JSON.parse(request.prices)
-            pages = request.pages
+            pages = JSON.parse(request.pages)
           rescue
             logger.error 'Error while fetching request from database'
             halt 400
           end
 
           begin
-            check_items(items, prices, pages).to_json
+            results = check_items(items, prices, pages).to_json
           rescue
             logger.error 'Lookup of Queenshop failed'
             halt 500, 'Lookup of Queenshop failed'
@@ -222,7 +222,7 @@ class SinatraApp < Sinatra::Base
             prices: prices, pages: pages
           }.to_json
 
-        end
+    end
 		
 		api_delete_query = lambda do
 			request = Request.destroy(params[:id])
