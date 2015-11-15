@@ -52,7 +52,7 @@ class SinatraApp < Sinatra::Base
 		  redirect "/show/#{@item}"
 		  return nil
 		end
-		 logger.info  'My name is frank'
+
 		slim :show
 	
 	end
@@ -173,14 +173,15 @@ class SinatraApp < Sinatra::Base
 		
     api_post_query = lambda do		
 			
-		 logger.info  'Nice to meet you'
+		 logger.info  'Enter api_post_query'
           content_type :json 
           begin
             req = JSON.parse(request.body.read)
             logger.info req
           rescue #=> e
             logger.error "Error: #{e.message}"
-            halt 400
+            logger.info  'api_post_query-Error occcur1'
+			halt 400
           end
 
           request = Request.new(
@@ -190,9 +191,11 @@ class SinatraApp < Sinatra::Base
           )
 
           if request.save
+		   logger.info  'api_post_query-request.save'
             status 201
             redirect "/api/v1/query/#{request.id}", 303
           else
+			logger.info  'api_post_query-Error saving request to database'
             logger.error 'Error saving request to database'
             halt 500, 'Error saving request request to the database'
           end
@@ -201,7 +204,7 @@ class SinatraApp < Sinatra::Base
 
 		
      api_get_query_id = lambda do
-        	
+         logger.info  'Enter api_get_query_id'
           content_type :json
           begin
             request = Request.find(params[:id])
@@ -209,6 +212,7 @@ class SinatraApp < Sinatra::Base
             prices = JSON.parse(request.prices)
             pages = JSON.parse(request.pages)
           rescue
+		    logger.info  'api_get_query_id-Error while fetching request from database'
             logger.error 'Error while fetching request from database'
             halt 400
           end
