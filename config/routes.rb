@@ -189,8 +189,7 @@ class SinatraApp < Sinatra::Base
 			 
           requests = Request.new(
             items: req['items'].to_json,
-            prices: req['prices'].to_json,
-            pages: req['pages'].to_json
+            prices: req['prices'].to_json
           )
 
           if requests.save
