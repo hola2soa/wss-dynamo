@@ -1,2 +1,1 @@
-web: bundle exec thin start -R config.ru -p $PORTi
-
+web: bundle exec rackup -s puma -p $PORT
