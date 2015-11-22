@@ -4,6 +4,7 @@ module Api
       def self.registered(app)
         show = lambda do
           content_type :json
+          puts 'show::::::::::::'
           get_items(params[:item]).to_json
         end
 
@@ -46,7 +47,9 @@ module Api
           end
 
           begin
-            results = check_items(items, prices, pages).to_json
+            results = check_items(items, prices, pages)
+            puts 'sssssssssssssssssssssssssss'
+            puts results
           rescue
             logger.error 'Lookup of Queenshop failed'
             halt 500, 'Lookup of Queenshop failed'
@@ -54,12 +57,12 @@ module Api
 
           { id: request.id, items: items,
             prices: prices, pages: pages,
-            found: [results].to_json
+            found: results
           }.to_json
         end
 
         delete_query = lambda do
-          tutorial = Tutorial.destroy(params[:id])
+          tutorial = Request.destroy(params[:id])
           status(tutorial > 0 ? 200 : 404)
         end
 
