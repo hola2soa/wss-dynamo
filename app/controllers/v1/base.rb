@@ -16,19 +16,6 @@ class CadetDynamo < Sinatra::Base
     set :session_secret, "this is not a real secret"
   end
 
-  configure do
-    set :cadet_cache, Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),
-      {:username => ENV["MEMCACHIER_USERNAME"],
-        :password => ENV["MEMCACHIER_PASSWORD"],
-        :socket_timeout => 1.5,
-        :socket_failure_delay => 0.2
-        })
-    set :cadet_cache_ttl, 1.day    # 24hrs
-
-    set :cadet_queue, Aws::SQS::Client.new(region: ENV['AWS_REGION'])
-    set :cadet_queue_name, 'RecentWSS'
-  end
-
   configure :production, :development do
     enable :logging
   end
