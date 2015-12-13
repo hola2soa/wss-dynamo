@@ -39,7 +39,7 @@ namespace :queue do
 
   desc "Create all queues"
   task :create do
-    sqs = AWS::SQS.new(region: ENV['AWS_REGION'])
+    sqs = Aws::SQS::Client.new(region: ENV['AWS_REGION'])
 
     begin
       queue = sqs.queues.create('RecentWSS')
@@ -52,13 +52,14 @@ end
 
 namespace :db do
   require_relative 'app/models/item.rb'
+  require_relative 'config/database'
 
   desc "Create tutorial table"
   task :migrate do
     begin
-      Item.create_table(5, 6, 3)
+      Item.create_table
       puts 'Item table created'
-    rescue AWS::DynamoDB::Errors::ResourceInUseException => e
+    rescue Aws::DynamoDB::Errors::ResourceInUseException => e
       puts 'Item table already exists'
     end
   end

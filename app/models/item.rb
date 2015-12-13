@@ -3,7 +3,7 @@ require 'dynamoid'
 class Item
   include Dynamoid::Document
   field :items, :string
-  field :prices, :datetime
+  field :prices, :string
   field :pages, :string
 
   def self.destroy(id)
