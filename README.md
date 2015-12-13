@@ -1,9 +1,6 @@
-# QueenShop Webservice [ ![Codeship Status for hola2soa/QueenShopWebApi](https://codeship.com/projects/7b7d0460-6030-0133-0431-46609ca5f084/status?branch=master)](https://codeship.com/projects/112052)
+# QueenShop Webservice [ ![Codeship Status for hola2soa/wss-dynamo](https://codeship.com/projects/0a7c44e0-83c0-0133-6233-464b28b2a6d9/status?branch=master)](https://codeship.com/projects/121810)
 
-Take a look: <a href="https://hola2soa-api.herokuapp.com/" target="_blank">live site</a>
-
-A simple version of web service that scrapes QueenShop data using the
-[![Gem Version](https://badge.fury.io/rb/queenshop.svg)](https://badge.fury.io/rb/queenshop) gem
+Take a look: <a href="https://wss-dynamo.herokuapp.com/" target="_blank">live site</a>
 
 Handles:
 - GET   /
