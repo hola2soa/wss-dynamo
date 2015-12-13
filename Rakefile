@@ -4,7 +4,6 @@ require 'config_env/rake_tasks'
 require ::File.expand_path('../config/environments', __FILE__)
 
 task :config do
-  puts "#{__dir__}/config/config_env.rb"
   ConfigEnv.path_to_config("#{__dir__}/config/config_env.rb")
 end
 

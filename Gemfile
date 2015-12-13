@@ -20,6 +20,11 @@ group :development do
     gem 'tux'
 end
 
+group :development, :test do
+  gem 'vcr'
+  gem 'webmock'
+end
+
 group :test do
   gem 'minitest'
   gem 'minitest-rg'

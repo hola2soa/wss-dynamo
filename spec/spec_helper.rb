@@ -11,10 +11,6 @@ require 'yaml'
 
 include Rack::Test::Methods
 
-# params file => parameters hash
-PASSED_TESTS = { 'page1' => { pages: '1' } }
-FAIL_TEST = ['mmjjhii33.99023j9893'] # will do later to call random
-
 def app
   SinatraApp
 end
