@@ -1,12 +1,8 @@
+
 Dir.glob('./app/{helpers,models}/*.rb').each { |file| require file }
 
 class SinatraApp < Sinatra::Base
   enable :sessions
-  register Sinatra::Flash
-  use Rack::MethodOverride
-  # set path to view/public
-  set :views, File.expand_path('../app/views', __FILE__) # ok
-  set :public_folder, File.expand_path('../app/public', __FILE__)
 
   # Standard Sinatra configurations
   configure :production, :development do
@@ -18,14 +14,19 @@ class SinatraApp < Sinatra::Base
   end
 
   configure :production do
-    set :api_server, 'https://hola2soa-api.herokuapp.com'
+    set :api_server, 'https://wws-dynamo.herokuapp.com'
   end
 
   configure do
-    Hirb.enable
     set :session_secret, 'something'
     set :api_ver, 'api/v1'
   end
+
+  root = lambda do
+    'Queenshop scrapper and two other (under dev)'
+  end
+
+  get '/', &root
 
   helpers QueenshopHelper
   helpers do

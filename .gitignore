@@ -1,6 +1,8 @@
 # all backup files
 *~
 
+config/config_env.rb
+
 # bundler
 .bundle/
 

@@ -1,32 +1,23 @@
 source 'http://rubygems.org'
 ruby '2.2.0'
 
+gem 'puma'
 gem 'sinatra'
 gem 'sinatra-contrib'
+gem 'oga' # shouldn't be needed since they are in queenshop
+gem 'iconv' # same as above, but won't work if not included
 gem 'queenshop'
 gem 'json'
-gem 'oga'
-gem 'iconv'
-gem 'puma'
 
-gem 'activerecord'
-gem 'sinatra-activerecord'
-gem 'tux'
-gem 'hirb'
+gem 'activesupport'
 
-gem 'httparty'
+gem 'config_env'
+gem 'aws-sdk', '~> 2'     # DynamoDB (Dynamoid), SQS Message Queue
+gem 'dynamoid', '~> 1'
+gem 'dalli'               # Memcachier
 
-gem 'sinatra-flash'
-gem 'slim'
-gem 'tilt'
-
-group :production do
-  gem 'pg'
-end
-
-group :development, :test do
-  gem 'sqlite3'
-  gem 'shotgun'
+group :development do
+    gem 'tux'
 end
 
 group :test do
@@ -35,6 +26,4 @@ group :test do
   gem 'rack'
   gem 'rack-test'
   gem 'rake'
-  gem 'vcr'
-  gem 'webmock'
 end

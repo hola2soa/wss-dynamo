@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 require 'queenshop'
 require 'json'
-require 'iconv'
 
 ##
 # Stores prodcut name and price in a json list
@@ -25,14 +24,6 @@ end
 
 ##
 # Loads and returns items with their prices
-#
-# Example:
-#   pr = Products.new('blouse', '<200')
-#   puts pr.products.to_json
-#
-# this will work but it is not correct
-# need to check why it is not returning array properly
-# for now just do a silly stupid fix
 class Products
   attr_reader :products
   attr_reader :prices
@@ -59,11 +50,7 @@ class Products
   def load_items(params = [])
     item_list = ItemList.new
     scraper = QueenShopScraper::Filter.new
-    # ic = Iconv.new('UTF-8', 'BIG5')
-    # records = ic.iconv(scraper.scrape(params))
     scraper.scrape(params).each do |item|
-      # need iconv here, not sure icon charset still not kept
-      # eventhough it was specified in the scraper api
       item_list[item[:title]] = item[:price]
       @prices.push(item[:price])
     end
