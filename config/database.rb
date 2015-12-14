@@ -1,9 +1,17 @@
 require 'dynamoid'
-ConfigEnv.path_to_config("#{__dir__}/config_env.rb")
+require 'sinatra'
+require 'config_env'
+require 'aws-sdk'
+
+configure :development, :test do
+  ConfigEnv.path_to_config("#{__dir__}/config_env.rb")
+end
+
 Aws.config.update({
-    region: 'us-west-2',
-    credentials: Aws::Credentials.new('REPLACE_WITH_ACCESS_KEY_ID', 'REPLACE_WITH_SECRET_ACCESS_KEY')
+  region: ENV['AWS_REGION'],
+  credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
 })
+
 Dynamoid.configure do |config|
   config.adapter = 'aws_sdk_v2'
   config.namespace = 'wss'
