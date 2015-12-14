@@ -1,7 +1,7 @@
 require 'dynamoid'
 require 'sinatra'
-require 'config_env'
 require 'aws-sdk'
+require 'config_env'
 
 configure :development, :test do
   ConfigEnv.path_to_config("#{__dir__}/config_env.rb")

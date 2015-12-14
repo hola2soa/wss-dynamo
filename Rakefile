@@ -17,44 +17,11 @@ Rake::TestTask.new(name=:spec) do |t|
   t.pattern = 'spec/*_spec.rb'
 end
 
-namespace :deploy do
-  desc "Setup Heroku, DynamoDB, SQS, and deploy to Heroku"
-  task :production do
-    ENV['RACK_ENV'] = 'production'
-    Rake::Task['deploy:resources'].invoke
-    Rake::Task['deploy:heroku'].invoke
-  end
-
-  desc "Create/Migrate all resources"
-  task :resources => [:config, :'config_env:heroku', :'db:migrate', :'queue:create']
-
-  desc "Deploy to Heroku"
-  task :heroku do
-    sh 'git push -f heroku HEAD:master'
-  end
-end
-
-namespace :queue do
-  require 'aws-sdk'
-
-  desc "Create all queues"
-  task :create do
-    sqs = Aws::SQS::Client.new(region: ENV['AWS_REGION'])
-
-    begin
-      queue = sqs.queues.create('RecentWSS')
-      puts "Queue created"
-    rescue => e
-      puts "Error creating queue: #{e}"
-    end
-  end
-end
-
 namespace :db do
   require_relative 'app/models/item.rb'
   require_relative 'config/database'
 
-  desc "Create tutorial table"
+  # desc "Create tutorial table"
   task :migrate do
     begin
       Item.create_table

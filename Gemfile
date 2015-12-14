@@ -2,8 +2,8 @@ source 'http://rubygems.org'
 ruby '2.2.0'
 
 gem 'puma'
-gem 'sinatra'
-gem 'sinatra-contrib'
+gem 'sinatra', require: 'sinatra/base'
+gem 'sinatra-contrib', '1.3.1'
 gem 'oga' # shouldn't be needed since they are in queenshop
 gem 'iconv' # same as above, but won't work if not included
 gem 'queenshop'
