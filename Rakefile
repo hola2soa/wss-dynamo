@@ -18,7 +18,7 @@ Rake::TestTask.new(name=:spec) do |t|
 end
 
 namespace :db do
-  require_relative 'app/models/item.rb'
+  require_relative 'app/models/item'
   require_relative 'config/database'
 
   # desc "Create tutorial table"

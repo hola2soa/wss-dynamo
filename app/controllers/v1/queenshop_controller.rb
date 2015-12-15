@@ -36,11 +36,12 @@ module Api
           content_type :json
           begin
             request = Item.find(params[:id])
+            logger.info(request);
             items = JSON.parse(request.items)
             prices = JSON.parse(request.prices)
             pages = request.pages
-          rescue
-            logger.error 'Error while fetching request from database'
+          rescue => e
+            logger.error "Error while fetching request from database #{e.message}"
             halt 400
           end
 
@@ -62,7 +63,6 @@ module Api
           tutorial = Item.destroy(params[:id])
           status(tutorial > 0 ? 200 : 404)
         end
-
 
         app.get '/:item', &show
         app.get '/query/:id', &get_query
