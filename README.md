@@ -1,4 +1,4 @@
-# QueenShop Webservice [ ![Codeship Status for hola2soa/wss-dynamo](https://codeship.com/projects/0a7c44e0-83c0-0133-6233-464b28b2a6d9/status?branch=master)](https://codeship.com/projects/121810)
+# QueenShop Webservice [ ![Codeship Status for hola2soa/wss-dynamo](https://codeship.com/projects/837f5960-8602-0133-6b2f-12253304c6fc/status?branch=master)](https://codeship.com/projects/122494)
 
 Take a look: <a href="https://wss-dynamo.herokuapp.com/" target="_blank">live site</a>
 
