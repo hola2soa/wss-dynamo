@@ -24,7 +24,6 @@ module Api
           )
 
           if request.save
-            status 201
             redirect "/api/v1/queenshop/query/#{request.id}", 303
           else
             logger.error 'Error saving request to database'
@@ -41,6 +40,7 @@ module Api
             prices = JSON.parse(request.prices)
             pages = request.pages
           rescue => e
+            puts "------------------------------> #{e.message}"
             logger.error "Error while fetching request from database #{e.message}"
             halt 400
           end

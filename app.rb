@@ -14,7 +14,7 @@ class SinatraApp < Sinatra::Base
   end
 
   configure :production do
-    set :api_server, 'https://wws-dynamo.herokuapp.com'
+    set :api_server, 'https://wss-dynamo.herokuapp.com'
   end
 
   configure do
