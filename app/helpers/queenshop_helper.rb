@@ -1,16 +1,25 @@
+require 'concurrent'
 module QueenshopHelper
-  def get_items(params)
-    Products.new(params).products
-  rescue => e
-    logger.info e
-    halt 404
+  def new_item(req)
+    item = Item.new
+    item.items = req['items']
+    item.prices = req['prices']
+    item.pages = req['pages']
+    item
   end
 
-  def check_items(items, prices, pages)
-    items.map do |item|
-      found = Products.new(item, '', pages).prices
-      [item, prices.select { |price| found.include? price.to_s }]
-    end.to_h
+  def check_items(item_id)
+    begin
+      item = Item.find(item_id)
+      items = JSON.parse(item.items)
+      prices = JSON.parse(item.prices)
+      pages = item.pages
+    rescue => e
+      logger.error "Error while fetching request from database #{e.message}"
+      halt 400
+    end
+
+    CheckMultipleItems.new.call(items, prices, pages)
   rescue => e
     logger.info e
     halt 404

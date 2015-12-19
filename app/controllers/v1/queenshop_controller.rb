@@ -2,12 +2,18 @@ module Api
   module V1
     module QueenshopController
       def self.registered(app)
-        show = lambda do
-          content_type :json
-          get_items(params[:item]).to_json
+        display_api_root = lambda do
+          "Queenshop API v1 is up and running at " +
+          "<a href=\"/api/v1/\">#{request.host}:#{request.port}/api/v1/</a>"
         end
 
-        post_query = lambda do
+        get_items_matching_query = lambda do
+          content_type :json
+          items = GetItems.new.call(params[:item])
+          items.nil? ? halt(404) : items.to_json
+        end
+
+        create_item_query = lambda do
           content_type :json
           begin
             req = JSON.parse(request.body.read)
@@ -17,14 +23,9 @@ module Api
             halt 400
           end
 
-          request = Item.new(
-            items: req['items'],
-            prices: req['prices'],
-            pages: req['pages']
-          )
-
-          if request.save
-            redirect "/api/v1/queenshop/query/#{request.id}", 303
+          item = new_item(req)
+          if item.save
+            redirect "/api/v1/queenshop/item/#{item.id}", 303
           else
             logger.error 'Error saving request to database'
             halt 500, 'Error saving request request to the database'
@@ -33,41 +34,25 @@ module Api
 
         get_query = lambda do
           content_type :json
-          begin
-            request = Item.find(params[:id])
-            logger.info(request);
-            items = JSON.parse(request.items)
-            prices = JSON.parse(request.prices)
-            pages = request.pages
-          rescue => e
-            puts "------------------------------> #{e.message}"
-            logger.error "Error while fetching request from database #{e.message}"
-            halt 400
-          end
-
-          begin
-            results = check_items(items, prices, pages)
-            puts results
-          rescue
-            logger.error 'Lookup of Queenshop failed'
-            halt 500, 'Lookup of Queenshop failed'
-          end
-
-          { id: request.id, items: items,
-            prices: prices, pages: pages,
+          results = check_items(req[:id])
+          {
+            #id: request.id, items: items,
+            #prices: prices, pages: pages,
             found: results
           }.to_json
         end
 
-        delete_query = lambda do
-          tutorial = Item.destroy(params[:id])
-          status(tutorial > 0 ? 200 : 404)
+        delete_item = lambda do
+          item = Item.destroy(params[:id])
+          status(item > 0 ? 200 : 404)
         end
 
-        app.get '/:item', &show
-        app.get '/query/:id', &get_query
-        app.post '/query', &post_query
-        app.delete '/query', &delete_query
+        app.get '/?', &display_api_root
+
+        app.get '/:item', &get_items_matching_query
+        app.get '/item/:id', &get_query
+        app.post '/item', &create_item_query
+        app.delete '/item', &delete_item
       end
     end
   end
