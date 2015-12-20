@@ -34,12 +34,7 @@ module Api
 
         get_query = lambda do
           content_type :json
-          results = check_items(req[:id])
-          {
-            #id: request.id, items: items,
-            #prices: prices, pages: pages,
-            found: results
-          }.to_json
+          check_items(params[:id]).to_json
         end
 
         delete_item = lambda do

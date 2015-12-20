@@ -11,17 +11,21 @@ module QueenshopHelper
   def check_items(item_id)
     begin
       item = Item.find(item_id)
+      raise 'not item found' unless !item.nil?
+    rescue => e
+      logger.error "Error while fetching request from database #{e.message}"
+      halt 404
+    end
+
+    begin
       items = JSON.parse(item.items)
       prices = JSON.parse(item.prices)
       pages = item.pages
+
+      results = CheckMultipleItems.new.call(items, prices, pages)
     rescue => e
-      logger.error "Error while fetching request from database #{e.message}"
       halt 400
     end
-
-    CheckMultipleItems.new.call(items, prices, pages)
-  rescue => e
-    logger.info e
-    halt 404
+    # item
   end
 end

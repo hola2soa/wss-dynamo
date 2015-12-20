@@ -19,12 +19,10 @@ class GetItems
 
   def build_params(item_name = '', price = '', pages = '')
     params = []
-    puts "--------------------->#{price}"
 
     params.push("price=#{price}") if !price.empty?
     params.push("item=#{item_name}") if !item_name.empty?
     params.push("pages=#{pages}") if !pages.empty?
     params
   end
-
 end

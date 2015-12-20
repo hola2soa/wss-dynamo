@@ -30,7 +30,7 @@ describe 'Checking items for prices' do
   it 'should find matching prices' do
     header = { 'CONTENT_TYPE' => 'application/json' }
     body = {
-      items: ['blouse'],
+      items: ['m'],
       prices: ['390','490'],
       pages: '1..7'
     }
@@ -59,7 +59,7 @@ describe 'Checking items for prices' do
     last_response.must_be :ok?
   end
 
-  it 'should return 404 for unknown items' do
+  it 'should return 400 for items in database but not in scraper' do
     header = { 'CONTENT_TYPE' => 'application/json' }
     body = {
       items: [random_str(15), random_str(15)],
@@ -73,7 +73,7 @@ describe 'Checking items for prices' do
     # VCR.use_cassette('sad_request') do
       follow_redirect!
     # end
-    last_response.must_be :not_found?
+    last_response.status.must_equal 400
   end
 
   it 'should return 400 for bad JSON formatting' do
