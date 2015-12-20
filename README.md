@@ -5,10 +5,10 @@ Take a look: <a href="https://wss-dynamo.herokuapp.com/" target="_blank">live si
 Handles:
 - GET   /
   - returns OK status to indicate service is alive
-- GET   api/v1/queenshop/\<item\>.json
+- GET   api/v1/queenshop/\<item\>
   - returns JSON of items info: (titles and prices)
-- GET   api/v1/queenshop/query\<integer\>
-  - returns JSON of items info: (id, items, prices, pages)
-- POST  /api/v1/queenshop/query
+- GET   api/v1/queenshop/item/\<item_id\>
+  - returns JSON of items and the matching prices passed (previous post)
+- POST  /api/v1/queenshop/item
   - takes JSON: array of 'items', array of 'prices'
-  - returns: redirects (303) to GET /api/v1/queenshop/<some integer>
+  - returns: redirects (303) to GET /api/v1/queenshop/<item_id>
