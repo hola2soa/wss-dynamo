@@ -49,12 +49,11 @@ describe 'Checking items for prices' do
     JSON.parse(stored_request[:items]).must_equal body[:items]
 
     # verify redirect
-    # VCR.use_cassette('happy_request') do
+    VCR.use_cassette('happy_request') do
       follow_redirect!
-    # end
-=begin
+    end
     last_request.url.must_match /api\/v1\/queenshop\/item\/.+/
-=end
+
     # check response from get
     last_response.must_be :ok?
   end
@@ -70,9 +69,9 @@ describe 'Checking items for prices' do
     last_response.must_be :redirect?
 
     # verify redirect
-    # VCR.use_cassette('sad_request') do
+    VCR.use_cassette('sad_request') do
       follow_redirect!
-    # end
+    end
     last_response.status.must_equal 400
   end
 
