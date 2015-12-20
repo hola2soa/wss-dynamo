@@ -10,6 +10,7 @@ gem 'queenshop'
 gem 'json'
 
 gem 'activesupport'
+gem 'concurrent-ruby-ext'
 
 gem 'config_env'
 gem 'aws-sdk', '~> 2'     # DynamoDB (Dynamoid), SQS Message Queue
