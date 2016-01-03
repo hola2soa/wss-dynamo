@@ -2,27 +2,31 @@ require 'queenshop'
 
 # Service object to check tutorial request from API
 class GetItems
-  def call(item_name, prices = '', pages = '')
-    return nil unless item_name
-    params = build_params(item_name, prices, pages)
-    items = scrape_items(params)
-    all_prices = items.map {|row| row[:price]}
-    { 'items': items, 'all_prices': all_prices }
+  def call(options)
+    halt 400, 'no store defined' unless options[:store]
+    scrape_items(options)
   end
 
   private
 
-  def scrape_items(params)
-    scraper = QueenShopScraper::Filter.new
-    scraper.scrape(params)
+  def scrape_items(options)
+    scraper = instatiate_shop_scraper(options[:store])
+    scraper.scrape(options[:category], options)
   end
 
-  def build_params(item_name = '', price = '', pages = '')
-    params = []
-
-    params.push("price=#{price}") if !price.empty?
-    params.push("item=#{item_name}") if !item_name.empty?
-    params.push("pages=#{pages}") if !pages.empty?
-    params
+  def instatiate_shop_scraper(shop)
+    scraper = ''
+    case shop
+    when 'queenshop'
+      scraper = QueenShop::Scraper.new
+    when 'joyceshop'
+      scraper = JoyceShop::Scraper.new
+    when 'stylemooncat'
+      scraper = StyleMoonCat::Scraper.new
+    else
+      'invalid shop (no scraper supported)'
+      halt 400 # bad request
+    end
+    scraper
   end
 end

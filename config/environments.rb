@@ -5,8 +5,8 @@ require 'sinatra/json'
 
 require_relative 'database'
 
-# Ensure app.rb gets loaded before all routes
-require File.expand_path('../../app', __FILE__)
+# load files in this specific order
+Dir.glob('./app/{helpers,models,services}/*.rb').each { |file| require file }
 
-# Require routes.rb
-require File.expand_path('../routes', __FILE__)
+# then load controllers
+Dir.glob('./app/controllers/*/*.rb').each { |file| require file }

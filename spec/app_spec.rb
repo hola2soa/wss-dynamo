@@ -6,7 +6,7 @@ describe 'Getting the root of the service' do
   it 'Should return ok' do
     get '/'
     last_response.must_be :ok?
-    last_response.body.must_match(/queenshop/i)
+    last_response.body.must_match(/hola/i)
   end
 end
 
@@ -44,7 +44,7 @@ describe 'Checking items for prices' do
 
     # get request
     request_id = next_location.scan(/item\/(.+)/).flatten[0]
-    stored_request = Item.find(request_id)
+    stored_request = UserRequest.find(request_id)
 
     JSON.parse(stored_request[:items]).must_equal body[:items]
 

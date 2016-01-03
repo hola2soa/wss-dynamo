@@ -7,6 +7,8 @@ gem 'sinatra-contrib', '1.3.1'
 gem 'oga' # shouldn't be needed since they are in queenshop
 gem 'iconv' # same as above, but won't work if not included
 gem 'queenshop'
+gem 'joyceshop'
+gem 'stylemooncat'
 gem 'json'
 
 gem 'activesupport'

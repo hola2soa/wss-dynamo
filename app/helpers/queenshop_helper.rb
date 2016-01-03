@@ -1,7 +1,7 @@
 require 'concurrent'
 module QueenshopHelper
   def new_item(req)
-    item = Item.new
+    item = UserRequest.new
     item.items = req['items']
     item.prices = req['prices']
     item.pages = req['pages']
@@ -10,7 +10,7 @@ module QueenshopHelper
 
   def check_items(item_id)
     begin
-      item = Item.find(item_id)
+      item = UserRequest.find(item_id)
       raise 'not item found' unless !item.nil?
     rescue => e
       logger.error "Error while fetching request from database #{e.message}"
