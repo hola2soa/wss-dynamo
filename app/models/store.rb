@@ -3,8 +3,7 @@ require 'dynamoid'
 class Store
   include Dynamoid::Document
   field   :name,   :string
-  field   :url,    :string
-  field   :api,    :string
+  # field   :url,    :string
   belongs_to  :store
 
   def self.destroy(id)

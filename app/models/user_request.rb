@@ -2,10 +2,10 @@ require 'dynamoid'
 
 class UserRequest
   include Dynamoid::Document
-  field   :items,   :string
+  field   :keywords,   :string
   field   :prices,  :string
-  field   :pages,   :string
-  
+  # has_one :user,    :class_name => :user
+
   def self.destroy(id)
     find(id).destroy
   end
