@@ -2,9 +2,11 @@ require 'dynamoid'
 
 class User
   include Dynamoid::Document
-  field     :email_address, :email
-  has_many  :store_preferences,   :class_name => :store
-  has_many  :pinned_items,  :class_name => :item
+  field     :email_address, :string
+  has_and_belongs_to_many  :stores
+  has_and_belongs_to_many  :items
+
+  belongs_to :userrequest
 
   def self.destroy(id)
     find(id).destroy

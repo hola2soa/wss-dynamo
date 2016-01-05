@@ -10,29 +10,24 @@ describe 'Getting the root of the service' do
   end
 end
 
-describe 'Getting price information' do
-  it 'should return their prices' do
-    get '/api/v1/queenshop/1'
-    last_response.must_be :ok?
-  end
-
+describe 'Getting item info' do
   it 'should return 404 for unknown items' do
-    get "/api/v1/item/#{random_str(20)}"
+    get "/api/v1/id=#{random_str(20)}"
     last_response.must_be :not_found?
   end
 end
 
+=begin
 describe 'Checking items for prices' do
   before do
-    Item.delete_all
+    UserRequest.delete_all
   end
 
   it 'should find matching prices' do
     header = { 'CONTENT_TYPE' => 'application/json' }
     body = {
       items: ['m'],
-      prices: ['390','490'],
-      pages: '1..7'
+      prices: ['390','490']
     }
 
     # checking for redirect
@@ -82,4 +77,5 @@ describe 'Checking items for prices' do
     post '/api/v1/queenshop/item', body, header
     last_response.must_be :bad_request?
   end
+=end
 end

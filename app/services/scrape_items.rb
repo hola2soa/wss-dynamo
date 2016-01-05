@@ -1,7 +1,7 @@
 require 'queenshop'
 
 # Service object to check tutorial request from API
-class GetItems
+class ScrapeItems
   def call(options)
     halt 400, 'no store defined' unless options[:store]
     scrape_items(options)

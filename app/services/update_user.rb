@@ -1,44 +1,43 @@
 class UpdateUser
   def remove_stores(email_address, stores)
     user = User.find_by_email_address(email_address)
-    halt 404, 'user not found' if user.nil?
-
     stores.each do |store_name|
-      store = user.store_preferences.find_by_name(store_name)
-      user.store_preferences.delete(store)
+      store = GetCreateStore.new.call(store_name)
+      user.stores.delete(store)
     end
-    user.save
+    { success: true, message: 'stores removed from user preferences' }
   end
 
   def add_stores(email_address, stores)
-    user = User.find_by_email_address(email_address)
-    halt 404, 'user not found' if user.nil?
-
-    stores.each do |store_name|
-      user.store_preferences.build({name: store})
+    begin
+      user = User.find_by_email_address(email_address)
+      stores.each do |store_name|
+        store = GetCreateStore.new.call(store_name)
+        user.stores << store
+      end
+    rescue Exception
+      { success: false, message: 'Error adding stores to user preferences' }
     end
-    user.save
+    { success: true, message: 'stores added successfully to user preferences' }
   end
 
-  def pin_item(email_address, item)
-    user = User.find_by_email_address(email_address)
-    halt 404, 'user not found' if user.nil?
-
-    # check if item exist
-    exist = user.pinned_items.find_by_link(item[:link])
-    if exist.nil?
-      user.pinned_items.build(item)
-      user.save
+  def pin_item(user, item_h, store_name)
+    begin
+      item = GetCreateItem.new.call(item_h, store_name)
+      user.items << item
+    rescue Exception
+      { success: false, message: 'Failed to pin item' }
     end
+    { success: true, message: 'Item pinned successfully' }
   end
 
-  def unpin_item(email_address, item)
-    user = User.find_by_email_address(email_address)
-    halt 404, 'user not found' if user.nil?
-
-    # check if item exist
-    exist = user.pinned_items.find_by_link(item[:link])
-    halt 404, 'user never pinned this item' if exist.nil?
-    user.pinned_items.delete(exist)
+  def unpin_item(user, item_h, store_name)
+    begin
+      item = GetCreateItem.new.call(item_h, store_name)
+      user.items.delete(item)
+    rescue Exception
+      { success: false, message: 'Failed to unpin item' }
+    end
+    { success: true, message: 'Item unpinned successfully' }
   end
 end

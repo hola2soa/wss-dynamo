@@ -25,12 +25,12 @@ namespace :db do
     begin
       UserRequest.create_table
       puts 'UserRequest table created'
-      # Item.create_table
-      # puts 'Item table created'
-      # Store.create_table
-      # puts 'Store table created'
-      # User.create_table
-      # puts 'User table created'
+      Item.create_table
+      puts 'Item table created'
+      Store.create_table
+      puts 'Store table created'
+      User.create_table
+      puts 'User table created'
     rescue Aws::DynamoDB::Errors::ResourceInUseException => e
       puts 'Error creating tables'
     end

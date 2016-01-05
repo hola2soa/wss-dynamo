@@ -1,4 +1,4 @@
-require_relative './get_items'
+require_relative './get_or_create_item'
 
 class CheckMultipleItems
   def call(items, prices, pages)
@@ -9,7 +9,7 @@ class CheckMultipleItems
     items.each do |item|
       threads.post do
         begin
-          all_prices = GetItems.new.call(item)[:all_prices]
+          all_prices = ScrapeItems.new.call(item)[:all_prices]
           found_prices[item] = prices.select{ |p| all_prices.include? p.to_s }
         rescue
           notfound << item

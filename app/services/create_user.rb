@@ -1,11 +1,20 @@
 class CreateUser
+  helpers BaseHelper
+
   def call(email_address, stores = [])
-    user = User.new
-    user.email_address = email_address
-    stores.each do |store|
-      user.store_preferences.build(store)
+    begin
+      raise '....'
+      user = User.new
+      user.email_address = email_address
+      user.save # need to save parent before creating association
+      stores.each do |store_name|
+        store = GetCreateStore.new.call(store_name)
+        user.stores << store
+      end
+    rescue Exception
+      User.find(user.id).destroy if user # remove user since there was an error
+      { success: false, message: 'failed to create user' }
     end
-    user.save
-    user
+    { success: true, data: user, message: 'user created successfully' }
   end
 end

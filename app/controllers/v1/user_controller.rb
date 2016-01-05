@@ -1,13 +1,41 @@
 class SinatraApp < Sinatra::Base
   helpers BaseHelper
+  helpers UserHelper
+  helpers ItemHelper
 
-  configure :production, :development do
-    enable :logging
+  create_user = lambda do
+    content_type :json
+    req = JSON.parse(request.body.read)
+    create_user(req).to_json
   end
 
-  new_user = lambda do
-    
+  add_user_stores = lambda do
+    content_type :json
+    req = JSON.parse(request.body.read)
+    add_user_stores(req).to_json
   end
 
-  post '/api/v1/new_user', &new_user
+  remove_user_stores = lambda do
+    content_type :json
+    req = JSON.parse(request.body.read)
+    remove_user_stores(req).to_json
+  end
+
+  pin_item = lambda do
+    content_type :json
+    req = JSON.parse(request.body.read)
+    pin_item(req).to_json
+  end
+
+  unpin_item = lambda do
+    content_type :json
+    req = JSON.parse(request.body.read)
+    unpin_item(req).to_json
+  end
+
+  post '/api/v1/create_user', &create_user
+  post '/api/v1/add_user_stores', &add_user_stores
+  post '/api/v1/remove_user_stores', &remove_user_stores
+  post '/api/v1/pin_item', &pin_item
+  post '/api/v1/unpin_item', &unpin_item
 end
