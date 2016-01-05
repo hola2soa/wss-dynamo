@@ -1,9 +1,11 @@
 class SinatraApp < Sinatra::Base
   helpers BaseHelper
   helpers ScraperHelper
+  helpers UserHelper
 
   create_user_request = lambda do
     content_type :json
+    authorize!
     begin
       req = JSON.parse(request.body.read)
     rescue => e
@@ -12,11 +14,11 @@ class SinatraApp < Sinatra::Base
     end
 
     user_request = new_user_request(req)
-    'saved...'
-    # redirect "/api/v1?id=#{user_request.id}", 303
+    redirect "/api/v1?id=#{user_request.id}", 303
   end
 
   delete_item = lambda do
+    authorize!
     halt 400, 'invalid parameter' unless params[:id]
     deleted = UserRequest.destroy(params[:id])
     status(deleted > 0 ? 200 : 404)
@@ -33,7 +35,7 @@ class SinatraApp < Sinatra::Base
   end
 
   get '/', &root
-  get '/api/v1/?', &handle_get_api_request
+  get '/api/v1?', &handle_get_api_request
   post '/api/v1/get_items', &create_user_request
   delete '/api/v1?', &delete_item
 end

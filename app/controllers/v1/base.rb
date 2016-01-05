@@ -4,8 +4,9 @@ require 'active_support/core_ext'
 
 class SinatraApp < Sinatra::Base
   enable :cross_origin
+  enable :sessions
   register Sinatra::CrossOrigin
-  
+
   set :allow_origin, :any
   set :allow_methods, [:get, :post, :options]
 
@@ -21,12 +22,6 @@ class SinatraApp < Sinatra::Base
   configure :production do
     set :api_server, 'https://wss-dynamo.herokuapp.com'
   end
-
-  use Rack::Session::Cookie, :key => 'rack.session',
-     :domain => "#{settings.api_server}",
-     :path => '/',
-     :expire_after => 122400, # 24 hours
-     :secret => 'not23a2!2real%44secret?'
 
   before do
     @HOST_WITH_PORT = request.host_with_port

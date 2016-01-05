@@ -16,7 +16,9 @@ module BaseHelper
     @@params[:page_limit] = uri[:page_limit] || 3
     @@params[:price_boundary] = parse_price(uri[:price]) if uri[:price]
 
-    halt 404 unless @@stores.include? @@params[:store]
+    if !@@params[:id]
+      halt 404 unless @@stores.include? @@params[:store]
+    end
   end
 
   def parse_price(price)

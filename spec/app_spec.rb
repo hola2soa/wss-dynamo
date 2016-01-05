@@ -10,72 +10,47 @@ describe 'Getting the root of the service' do
   end
 end
 
-describe 'Getting item info' do
-  it 'should return 404 for unknown items' do
-    get "/api/v1/id=#{random_str(20)}"
-    last_response.must_be :not_found?
-  end
-end
-
-=begin
-describe 'Checking items for prices' do
+describe 'Checking user auth, pinning and unpinning items' do
   before do
     UserRequest.delete_all
+    User.delete_all
+    Item.delete_all
+    Store.delete_all
   end
 
-  it 'should find matching prices' do
+  it 'should create new user' do
     header = { 'CONTENT_TYPE' => 'application/json' }
-    body = {
-      items: ['m'],
-      prices: ['390','490']
+    body = { "email_address": "ted@gmail.com",
+      "name": "Ted",
+      "stores": ["queenshop"]
     }
 
-    # checking for redirect
-    post '/api/v1/queenshop/item', body.to_json, header
+    post '/api/v1/create_user', body.to_json, header
+    last_response.must_be :ok?
+  end
+=begin
+  it 'should should login user' do
+    header = { 'CONTENT_TYPE' => 'application/json' }
+    body = { "email_address": "ted@gmail.com" }
 
-    last_response.must_be :redirect?
-    next_location = last_response.location
-    next_location.must_match /api\/v1\/queenshop\/item\/.+/
-
-    # get request
-    request_id = next_location.scan(/item\/(.+)/).flatten[0]
-    stored_request = UserRequest.find(request_id)
-
-    JSON.parse(stored_request[:items]).must_equal body[:items]
-
-    # verify redirect
-    VCR.use_cassette('happy_request') do
-      follow_redirect!
-    end
-    last_request.url.must_match /api\/v1\/queenshop\/item\/.+/
-
-    # check response from get
+    post '/api/v1/auth', body.to_json, header
     last_response.must_be :ok?
   end
 
-  it 'should return 400 for items in database but not in scraper' do
-    header = { 'CONTENT_TYPE' => 'application/json' }
-    body = {
-      items: [random_str(15), random_str(15)],
-      prices: ['800']
-    }
-
-    post '/api/v1/queenshop/item', body.to_json, header
-    last_response.must_be :redirect?
-
-    # verify redirect
-    VCR.use_cassette('sad_request') do
-      follow_redirect!
-    end
-    last_response.status.must_equal 400
+  it 'should return 404 for unknown items' do
+    get "/api/v1?id=#{random_str(20)}"
+    last_response.must_be :not_found?
   end
 
-  it 'should return 400 for bad JSON formatting' do
-    header = { 'CONTENT_TYPE' => 'application/json' }
-    body = random_str(50)
+  it 'should get items from queenshop' do
+    post '/api/v1?store=queenshop&category=tops'
+    last_response.body.must_be_instance_of Array
+    last_response.must_be :ok?
+  end
 
-    post '/api/v1/queenshop/item', body, header
-    last_response.must_be :bad_request?
+  it 'should should logout user' do
+    get '/api/v1/logout'
+    last_response.must_be :ok?
   end
 =end
 end

@@ -3,15 +3,18 @@ require 'queenshop'
 # Service object to check tutorial request from API
 class ScrapeItems
   def call(options)
-    halt 400, 'no store defined' unless options[:store]
-    scrape_items(options)
+    if options[:store]
+      scrape_items(options)
+    else
+      'No store specified'
+    end
   end
 
   private
 
   def scrape_items(options)
     scraper = instatiate_shop_scraper(options[:store])
-    scraper.scrape(options[:category], options)
+    scraper.scrape(options[:category], options).flatten.compact.uniq
   end
 
   def instatiate_shop_scraper(shop)

@@ -1,11 +1,9 @@
 class CreateUser
-  helpers BaseHelper
-
-  def call(email_address, stores = [])
+  def call(email_address, name, stores = [])
     begin
-      raise '....'
       user = User.new
       user.email_address = email_address
+      user.name = name
       user.save # need to save parent before creating association
       stores.each do |store_name|
         store = GetCreateStore.new.call(store_name)
