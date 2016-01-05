@@ -2,9 +2,11 @@ require 'dynamoid'
 
 class Item
   include Dynamoid::Document
-  field :items, :string
-  field :prices, :string
-  field :pages, :string
+  field     :title,       :string,  presence: true
+  field     :price,       :string,  presence: true
+  field     :link,        :string,  presence: true
+  field     :images,      :array,   presence: true
+  has_one   :store
 
   def self.destroy(id)
     find(id).destroy

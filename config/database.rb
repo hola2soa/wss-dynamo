@@ -16,6 +16,6 @@ Dynamoid.configure do |config|
   config.adapter = 'aws_sdk_v2'
   config.namespace = 'wss'
   config.warn_on_scan = false
-  config.read_capacity = 5
-  config.write_capacity = 5
+  config.read_capacity = 1
+  config.write_capacity = 1
 end
