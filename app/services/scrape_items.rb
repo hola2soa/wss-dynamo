@@ -28,9 +28,12 @@ class ScrapeItems
   end
 
   def scrape_page(options)
+    page = options[:page].to_i
+    opts = options.slice('price', 'keyword')
+
     scraper = instatiate_shop_scraper(options[:store])
     method = scraper.method(options[:category])
-    method.call(options[:category], options).flatten.compact.uniq
+    method.call(page, opts).flatten.compact.uniq
   end
 
   def instatiate_shop_scraper(shop)
@@ -43,8 +46,7 @@ class ScrapeItems
     when 'stylemooncat'
       scraper = StyleMoonCat::Scraper.new
     else
-      'invalid shop (no scraper supported)'
-      halt 400 # bad request
+      abort 'invalid shop (no scraper supported)'
     end
     scraper
   end
