@@ -34,8 +34,16 @@ class SinatraApp < Sinatra::Base
     fetch_item_records(options)
   end
 
+  scrape_single_page = lambda do
+    content_type :json
+    puts 'ssp'
+    options = parse_uri(params)
+    scrape_single_page(options)
+  end
+
   get '/', &root
   get '/api/v1?', &handle_get_api_request
+  get '/api/v1/ssp?', &scrape_single_page
   post '/api/v1/get_items', &create_user_request
   delete '/api/v1?', &delete_item
 end

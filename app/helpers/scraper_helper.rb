@@ -1,8 +1,16 @@
 require 'concurrent'
+
 module ScraperHelper
   def fetch_item_records(opts)
     items = check_items(opts[:id]) if opts[:id]
     items = ScrapeItems.new.call(opts) unless opts[:id]
+    items.nil? ? halt(404) : items.to_json
+  end
+
+  def scrape_single_page(opts)
+    halt 400, 'No page provided' unless opts[:page]
+    halt 400, 'Invalid page parameter' unless opts[:page].to_i != 0
+    items = ScrapeItems.new.scrape_single_page(opts)
     items.nil? ? halt(404) : items.to_json
   end
 

@@ -1,10 +1,20 @@
 require 'queenshop'
+require 'joyceshop'
+require 'stylemooncat'
 
 # Service object to check tutorial request from API
 class ScrapeItems
   def call(options)
     if options[:store]
       scrape_items(options)
+    else
+      'No store specified'
+    end
+  end
+
+  def scrape_single_page(options)
+    if options[:store]
+      scrape_page(options)
     else
       'No store specified'
     end
@@ -17,6 +27,15 @@ class ScrapeItems
     scraper.scrape(options[:category], options).flatten.compact.uniq
   end
 
+  def scrape_page(options)
+    page = options[:page].to_i
+    opts = options.slice('price', 'keyword')
+
+    scraper = instatiate_shop_scraper(options[:store])
+    method = scraper.method(options[:category])
+    method.call(page, opts).flatten.compact.uniq
+  end
+
   def instatiate_shop_scraper(shop)
     scraper = ''
     case shop
@@ -27,8 +46,7 @@ class ScrapeItems
     when 'stylemooncat'
       scraper = StyleMoonCat::Scraper.new
     else
-      'invalid shop (no scraper supported)'
-      halt 400 # bad request
+      abort 'invalid shop (no scraper supported)'
     end
     scraper
   end
