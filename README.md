@@ -37,6 +37,39 @@ Handles:
       - description: the base url to item
       - type: string
 
+- GET   /api/v1/ssp?
+  - uri can have
+    - variable name: store
+      - description: the store to scrape
+      - valid values: queenshop, joyceshop or stylemooncat
+    - variable name: category
+      - description: a specific category to scrape
+      - valid values: tops, latest, pants, accessories, popular, search
+    - variable name: keyword
+      - description: any words to filter the results
+      - valid values: any string that can be sent over GET
+    - variable name: price
+      - description: the price range to filter the results by
+      - valid values: two comma separated integers eg. 100,300
+    - variable name: page
+      - description: the page number to scrape
+      - valid values: positive integer
+
+  - result: an array of hashes each containing the following keys
+    - key: title
+      - description: the title/name of the item
+      - type: string
+    - key: price
+      - description: price of item
+      - type: Numeric (float/signed integer)
+    - key: images
+      - description: list of images where the items can be seen
+      - type: array of strings
+    - key: link
+      - description: the base url to item
+      - type: string
+
+
 - POST   /api/v1/create_user
   - parameters
     - name: name

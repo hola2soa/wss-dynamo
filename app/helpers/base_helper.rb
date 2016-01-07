@@ -14,6 +14,7 @@ module BaseHelper
     @@params[:id] = uri[:id] if uri[:id]
     @@params[:keyword] = uri[:keyword] || ''
     @@params[:page_limit] = uri[:page_limit] || 3
+    @@params[:page] = uri[:page] || 1 # to scrape single page
     @@params[:price_boundary] = parse_price(uri[:price]) if uri[:price]
 
     if !@@params[:id]
