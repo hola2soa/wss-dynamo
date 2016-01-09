@@ -5,6 +5,8 @@ class Store
   field   :name,   :string
   # field   :url,    :string
 
+  belongs_to :item
+
   def self.destroy(id)
     find(id).destroy
   end

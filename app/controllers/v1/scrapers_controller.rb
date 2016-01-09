@@ -40,9 +40,22 @@ class SinatraApp < Sinatra::Base
     scrape_single_page(options)
   end
 
+  random_items = lambda do
+    content_type :json
+    get_random_items(params).to_json
+  end
+
+  get_user_pinned_items = lambda do
+    content_type :json
+    # authorize!
+    get_user_pinned_items().to_json
+  end
+
   get '/', &root
   get '/api/v1?', &handle_get_api_request
   get '/api/v1/ssp?', &scrape_single_page
+  get '/api/v1/random_items', &random_items
+  get '/api/v1/user_pinned_items', &get_user_pinned_items
   post '/api/v1/get_items', &create_user_request
   delete '/api/v1?', &delete_item
 end

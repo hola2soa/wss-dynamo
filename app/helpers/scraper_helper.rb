@@ -41,6 +41,31 @@ module ScraperHelper
     items
   end
 
+  def get_random_items(req)
+    if req['random']
+      halt 400, 'invalid number of requested items' if req['random'].to_i == 0
+    end
+
+    count = req['random'].to_i || 5
+    items = []
+    1.upto(3) { items << scrape_random_page }
+    items = items.flatten.compact.uniq
+    items.sample(count)
+  end
+
+  def scrape_random_page
+    store = ['queenshop', 'stylemooncat'].sample
+    category = ['latest', 'popular', 'tops', 'pants', 'accessories', 'search'].sample
+    page = (1..5).to_a.sample
+    opts = { store: store, category: category, page: page }
+    ScrapeItems.new.scrape_single_page(opts)
+  end
+
+  def get_user_pinned_items
+    email_address = 'ted@gmail.com'#session[:email_address]
+    GetUserPinnedItems.new.call(email_address)
+  end
+
   def formulate_options(keywords, prices, categories)
     kw = keywords.map { |value| { keyword: value } } if keywords
     pr = prices.map { |value| { price_boundary: value } } if prices
