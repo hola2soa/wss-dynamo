@@ -9,6 +9,7 @@ module BaseHelper
   end
 
   def read_params(uri)
+    # should get store from logged in user instead of params
     @@params[:store] = uri[:store] || nil
     @@params[:category] = uri[:category] || 'search'
     @@params[:id] = uri[:id] if uri[:id]
@@ -17,9 +18,9 @@ module BaseHelper
     @@params[:page] = uri[:page] || 1 # to scrape single page
     @@params[:price_boundary] = parse_price(uri[:price]) if uri[:price]
 
-    if !@@params[:id]
-      halt 404 unless @@stores.include? @@params[:store]
-    end
+    # if !@@params[:id]
+    #   halt 404 unless @@stores.include? @@params[:store]
+    # end
   end
 
   def parse_price(price)

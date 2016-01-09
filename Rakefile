@@ -17,6 +17,22 @@ Rake::TestTask.new(name=:spec) do |t|
   t.pattern = 'spec/*_spec.rb'
 end
 
+namespace :queue do
+  require 'aws-sdk'
+
+  desc "Create all queues"
+  task :create do
+    sqs = Aws::SQS::Client.new(region: ENV['AWS_REGION'])
+
+    begin
+      queue = sqs.create_queue({queue_name: 'RecentRequests'})
+      puts "Queue created"
+    rescue => e
+      puts "Error creating queue: #{e}"
+    end
+  end
+end
+
 namespace :db do
   require_relative 'config/database'
   require_relative 'app/models/item'

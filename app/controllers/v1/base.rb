@@ -7,8 +7,13 @@ class SinatraApp < Sinatra::Base
   enable :sessions
   register Sinatra::CrossOrigin
 
-  set :allow_origin, :any
-  set :allow_methods, [:get, :post, :options]
+  configure do
+    set :allow_origin, :any
+    set :allow_methods, [:get, :post, :options]
+
+    set :hola_queue, Aws::SQS::Client.new(region: ENV['AWS_REGION'])
+    set :hola_queue_name, 'RecentRequests'
+  end
 
   configure :development, :test do
     ConfigEnv.path_to_config("#{__dir__}/../../../config/config_env.rb")

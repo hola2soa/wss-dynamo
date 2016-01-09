@@ -46,7 +46,7 @@ module ScraperHelper
     pr = prices.map { |value| { price_boundary: value } } if prices
     ca = categories.map { |value| { category: value } } if categories
 
-    user_stores = GetUserStores.new.call('t@g.com')
+    user_stores = GetUserStores.new.call(session[:email_address])
     halt 400, 'User has no stores' unless user_stores
     stores = user_stores.map { |value| { store: value } }
 

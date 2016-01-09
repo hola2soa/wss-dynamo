@@ -36,7 +36,6 @@ class SinatraApp < Sinatra::Base
 
   scrape_single_page = lambda do
     content_type :json
-    puts 'ssp'
     options = parse_uri(params)
     scrape_single_page(options)
   end
