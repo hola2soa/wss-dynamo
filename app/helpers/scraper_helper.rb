@@ -62,7 +62,8 @@ module ScraperHelper
   end
 
   def get_user_pinned_items
-    email_address = session[:email_address]
+    # set for testing only without auth
+    email_address = session[:email_address] || 'ted@gmail.com'
     GetUserPinnedItems.new.call(email_address)
   end
 

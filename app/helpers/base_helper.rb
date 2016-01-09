@@ -30,6 +30,10 @@ module BaseHelper
     pr
   end
 
+  def stores_daily_pinned_items
+    stores_daily_pinned_items.new.call()
+  end
+
   def failed(message)
     {status: 'failed', message: message}
   end
