@@ -25,7 +25,7 @@ class SinatraApp < Sinatra::Base
 
   pin_item = lambda do
     content_type :json
-    authorize!
+    #authorize!
     req = JSON.parse(request.body.read)
     pin_item(req).to_json
   end

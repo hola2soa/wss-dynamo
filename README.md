@@ -5,6 +5,7 @@ Take a look: <a href="https://wss-dynamo.herokuapp.com/" target="_blank">live si
 Handles:
 - GET   /
   - returns OK status to indicate service is alive
+
 - GET   /api/v1?uri
   - uri can have
     - variable name: store
@@ -22,7 +23,6 @@ Handles:
     - variable name: page_limit
       - description: the number of pages to scrape starting from one
       - valid values: positive integer
-
   - result: an array of hashes each containing the following keys
     - key: title
       - description: the title/name of the item
@@ -54,7 +54,6 @@ Handles:
     - variable name: page
       - description: the page number to scrape
       - valid values: positive integer
-
   - result: an array of hashes each containing the following keys
     - key: title
       - description: the title/name of the item
@@ -69,6 +68,38 @@ Handles:
       - description: the base url to item
       - type: string
 
+- GET  /api/v1/random
+  - description: choose x number of random items from random store and random
+                category and random page
+  - parameters
+    - name: random
+      - description: total number of items to get
+      - type: integer
+  - return
+    - status 200 on success, json array of items
+
+- GET  /api/v1/user_pinned_items
+  - description: get all user pinned items
+  - note: user must be logged in to access the pinned items
+  - parameters
+    - none
+  - result: an array of hashes each containing the following keys
+    - status 200 on success, json array of items having key:
+      - key: title
+        - description: the title/name of the item
+        - type: string
+      - key: price
+        - description: price of item
+        - type: Numeric (float/signed integer)
+      - key: images
+        - description: list of images where the items can be seen
+        - type: array of strings
+      - key: link
+        - description: the base url to item
+        - type: string
+      - key: store
+        - description: name of store this items belongs to
+        type: string
 
 - POST   /api/v1/create_user
   - parameters
@@ -78,7 +109,6 @@ Handles:
     - name: email_address
       - description: email address of user to create
       - type: valid email
-
   - return
     - error
       - status 400 if user exists
@@ -95,7 +125,6 @@ Handles:
     - name: stores
       - description: array of valid stores queenshop, joyceshop and stylemooncat
       - type: array of string
-
   - return
     - status 200 on success
     - status 400 on input error
@@ -108,7 +137,6 @@ Handles:
     - name: stores
       - description: array of valid stores queenshop, joyceshop and stylemooncat
       - type: array of string
-
   - return
     - status 200 on success
     - status 400 on input error
@@ -134,7 +162,6 @@ Handles:
         - key: link
           - description: the base url to item
           - type: string
-
   - return
     - status 200 on success
     - status 400 on input error
@@ -145,7 +172,6 @@ Handles:
   - note: user must be logged in
   - parameters
     - same as pin_item
-
   - return
     - same as pin_item
 
@@ -173,7 +199,6 @@ Handles:
       - description: limit scraping to categories :default search
       - type: string separated by new line \n
         - or array of valid categories: tops, pants, latest, popular, search, accessories
-
   - return
     - status 303 redirect to api/vi?id=new_id_of_item
     - status 400 on input error
@@ -184,7 +209,6 @@ Handles:
     - name: id
       - description: id of a record in the database
       - type: string
-
   - return
     - status 200 on success
     - status 404 on item id not found
