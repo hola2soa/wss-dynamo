@@ -62,7 +62,7 @@ module ScraperHelper
   end
 
   def get_user_pinned_items
-    email_address = 'ted@gmail.com'#session[:email_address]
+    email_address = session[:email_address]
     GetUserPinnedItems.new.call(email_address)
   end
 
