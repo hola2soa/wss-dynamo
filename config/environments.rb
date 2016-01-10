@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'sinatra/namespace'
 require 'sinatra/json'
 require 'sinatra/cross_origin'
+require 'dalli'
 require_relative 'database'
 
 

@@ -47,7 +47,7 @@ module UserHelper
     keywords = check_keywords(req)
     prices = check_prices(req)
     categories = check_categories(req)
-    email_address = session[:email_address] || nil
+    email_address = session[:email_address] || 'ted@gmail.com'
     valid_email(email_address)
     record = { keywords: keywords, prices: prices, categories: categories }
     user_req = SaveUserRequest.new.call(email_address, record)
@@ -130,5 +130,17 @@ module UserHelper
   def error_invalid_user(email_address)
     user = get_user(email_address)
     halt 400, 'User not found' unless user
+  end
+
+  def get_user_stores(email_address)
+    settings.wss_cache.fetch(email_address, ttl=settings.wss_cache_ttl) do
+      GetUserStores.new.call(email_address).tap { |stores| encache_var email_address, stores }
+    end
+  end
+
+  def encache_var(var, val)
+    settings.wss_cache.set(var, val, ttl=settings.wss_cache_ttl)
+  rescue => e
+    logger.info "ENCACHE_CADET failed: #{e}"
   end
 end

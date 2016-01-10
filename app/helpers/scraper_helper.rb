@@ -64,15 +64,20 @@ module ScraperHelper
   def get_user_pinned_items(req)
     # email_address = session[:email_address]
     email_address = req['email_address'] || 'ted@gmail.com'
-    GetUserPinnedItems.new.call(email_address)
+    pinned = email_address.split("@")[0]
+    settings.wss_cache.fetch(pinned, ttl=settings.wss_cache_ttl) do
+      GetUserPinnedItems.new.call(email_address).tap { |v| encache_var pinned, v }
+    end
   end
 
   def formulate_options(keywords, prices, categories)
+    email_address = session[:email_address] || 'ted@gmail.com'
     kw = keywords.map { |value| { keyword: value } } if keywords
     pr = prices.map { |value| { price_boundary: value } } if prices
     ca = categories.map { |value| { category: value } } if categories
 
-    user_stores = GetUserStores.new.call(session[:email_address])
+    user_stores = get_user_stores(email_address)
+    puts user_stores
     halt 400, 'User has no stores' unless user_stores
     stores = user_stores.map { |value| { store: value } }
 
