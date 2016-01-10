@@ -32,7 +32,7 @@ class SinatraApp < Sinatra::Base
 
   unpin_item = lambda do
     content_type :json
-    authorize!
+    # authorize!
     req = JSON.parse(request.body.read)
     unpin_item(req).to_json
   end

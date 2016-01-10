@@ -12,17 +12,18 @@ end
 
 describe 'Checking user auth, pinning and unpinning items' do
   before do
-    UserRequest.delete_all
-    User.delete_all
-    Item.delete_all
-    Store.delete_all
+    # UserRequest.delete_all
+    # User.delete_all
+    # Item.delete_all
+    # Store.delete_all
   end
 
   it 'should create new user' do
     header = { 'CONTENT_TYPE' => 'application/json' }
-    body = { "email_address": "ted@gmail.com",
-      "name": "Ted",
-      "stores": ["queenshop"]
+    body = {
+      email_address: "ted@gmail.com",
+      name: "Ted",
+      stores: ["queenshop"]
     }
 
     post '/api/v1/create_user', body.to_json, header
