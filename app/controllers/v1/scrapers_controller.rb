@@ -47,8 +47,8 @@ class SinatraApp < Sinatra::Base
 
   get_user_pinned_items = lambda do
     content_type :json
-    #authorize!
-    get_user_pinned_items().to_json
+    req = JSON.parse(request.body.read)
+    get_user_pinned_items(req).to_json
   end
 
   stores_daily_pinned_items = lambda do
@@ -60,8 +60,8 @@ class SinatraApp < Sinatra::Base
   get '/api/v1?', &handle_get_api_request
   get '/api/v1/ssp?', &scrape_single_page
   get '/api/v1/random_items', &random_items
-  get '/api/v1/user_pinned_items', &get_user_pinned_items
   get '/api/v1/stores_daily_pinned_items', &stores_daily_pinned_items
+  post '/api/v1/user_pinned_items', &get_user_pinned_items
   post '/api/v1/get_items', &create_user_request
   delete '/api/v1?', &delete_item
 end

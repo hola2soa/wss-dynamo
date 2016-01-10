@@ -2,7 +2,6 @@ module ItemHelper
   def pin_item(req)
     email_address = req['email_address'] || nil
     item = req['item'] || {}
-
     valid_email(email_address)
     user = get_user(email_address)
     halt 400, 'User does not exist' unless user
