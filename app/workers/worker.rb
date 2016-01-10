@@ -1,4 +1,3 @@
-require_relative '../../config/environments'
 require 'shoryuken'
 
 class ScraperWorker
