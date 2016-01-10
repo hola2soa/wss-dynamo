@@ -5,8 +5,12 @@ class SinatraApp < Sinatra::Base
 
   create_user_request = lambda do
     content_type :json
+<<<<<<< HEAD
+    #authorize!
+=======
     authorize!
     
+>>>>>>> master
     begin
       req = JSON.parse(request.body.read)
     rescue => e
