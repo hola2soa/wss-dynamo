@@ -50,9 +50,9 @@ module ScraperHelper
     ScrapeItems.new.scrape_single_page(opts)
   end
 
-  def get_user_pinned_items
-    # set for testing only without auth
-    email_address = session[:email_address] || 'ted@gmail.com'
+  def get_user_pinned_items(req)
+    # email_address = session[:email_address]
+    email_address = req['email_address'] || 'ted@gmail.com'
     GetUserPinnedItems.new.call(email_address)
   end
 

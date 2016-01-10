@@ -23,15 +23,16 @@ module BaseHelper
     # end
   end
 
-  def parse_price(price)
-    pr = price.split(',')
-    pr.push(pr[0]) if pr.length == 1
-    halt 400, 'invalid price'.to_json unless pr.all? { |i| i.is_a? Numeric }
-    pr
-  end
-
   def stores_daily_pinned_items
     StoresDailyPinnedItems.new.call()
+  end
+
+  def parse_price(price)
+    pr = price.split(',').map(&:to_i)
+
+    pr.push(pr[0].to_i) if pr.length == 1
+    pr = [0, 9999999] unless pr.all? { |i| i.is_a? Numeric }
+    pr
   end
 
   def failed(message)

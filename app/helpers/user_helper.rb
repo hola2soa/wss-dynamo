@@ -8,13 +8,20 @@ module UserHelper
   end
 
   def create_user(req)
+    puts '', '----> prepare to create a new user'
+    puts req
     email_address = req['email_address'] || nil
-    name = req['name'] || ''
-    stores = req['stores'] || []
+    name          = req['name'] || ''
+    stores        = req['stores'] || []
     valid_stores(stores)
+    puts '', '----> stores valid'
     valid_email(email_address)
+    puts '', '----> email valid'
     user = get_user(email_address)
+    puts '', '----> check if user existed'
+    puts user
     halt 400, 'User already exists' unless user.nil?
+    puts '', '----> user is not existed, create!'
     CreateUser.new.call(email_address, name, stores)
   end
 
@@ -57,12 +64,20 @@ module UserHelper
   end
 
   def authorize(req)
+    puts '', '----> prepare to auth user'
     halt 400, 'please provide email address' unless req['email_address']
     email_address = req['email_address']
+    puts email_address
     user = User.find_by_email_address(email_address)
     halt 404, 'mismatch credentials' unless user
-    session[:authorized] = true
-    session[:email_address] = email_address
+    {
+      authorized: true,
+      user: {
+        name:          user.name,
+        email_address: user.email_address,
+        stores: user.stores
+      }
+    }
   end
 
   def logout!
@@ -108,6 +123,7 @@ module UserHelper
   end
 
   def get_user(email_address)
+    puts '----> getting user....'
     User.find_by_email_address(email_address)
   end
 
