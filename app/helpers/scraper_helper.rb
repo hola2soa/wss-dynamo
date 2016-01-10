@@ -11,6 +11,7 @@ module ScraperHelper
     halt 400, 'No page provided' unless opts[:page]
     halt 400, 'Invalid page parameter' unless opts[:page].to_i != 0
     items = ScrapeItems.new.scrape_single_page(opts)
+    opts = nil
     items.nil? ? halt(404) : items.to_json
   end
 

@@ -42,15 +42,17 @@ describe 'Checking user auth, pinning and unpinning items' do
     last_response.must_be :ok?
   end
 
-  it 'should return 404 for unknown items' do
-    get "/api/v1?id=#{random_str(20)}"
-    last_response.must_be :not_found?
-  end
-
+=begin
   it 'should get items from queenshop' do
     get '/api/v1?store=queenshop&category=tops'
     last_response.body.wont_be_empty
     last_response.must_be :ok?
+  end
+=end
+
+  it 'should return 404 for unknown items' do
+    get "/api/v1?id=#{random_str(20)}"
+    last_response.must_be :not_found?
   end
 
   it 'should scrape single page' do
