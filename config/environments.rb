@@ -8,11 +8,12 @@ require 'dalli'
 require_relative 'database'
 
 
-
+puts "#{#{#{#{#{#{#{#{#{#{#{#{#{#{#{#{#{#{#{#{#{#{#}}}}}}}}}}}}}}}}}}}}}}"
+puts ENV
 # load files in this specific order
 Dir.glob('./app/{helpers,models,services}/*.rb').each { |file| require file }
 
-# Dir.glob('./app/workers/*.rb').each { |file| require file }
+Dir.glob('./app/workers/*.rb').each { |file| require file }
 
 # then load controllers
 Dir.glob('./app/controllers/*/*.rb').each { |file| require file }
