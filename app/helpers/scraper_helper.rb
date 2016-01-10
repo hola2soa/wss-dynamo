@@ -28,7 +28,11 @@ module ScraperHelper
     prices = user_request.prices
     categories = user_request.categories
     options = formulate_options(keywords, prices, categories)
-    ScraperWorker.perform_async(options.to_json)
+    # ScraperWorker.perform_async(options.to_json)
+    # should call shoryuken to do the scraping here
+    settings.wss_cache.fetch(item_id, ttl=settings.wss_cache_ttl) do
+      ScrapeMultipleItems.new.call(options).tap { |v| encache_var item_id, v }
+    end
   end
 
   def get_random_items(req)
