@@ -9,6 +9,8 @@ class Item
   has_one   :store
   belongs_to :users
 
+  belongs_to :users
+
   def self.destroy(id)
     find(id).destroy
   end

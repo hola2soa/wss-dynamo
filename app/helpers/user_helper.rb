@@ -131,4 +131,16 @@ module UserHelper
     user = get_user(email_address)
     halt 400, 'User not found' unless user
   end
+
+  def get_user_stores(email_address)
+    settings.wss_cache.fetch(email_address, ttl=settings.wss_cache_ttl) do
+      GetUserStores.new.call(email_address).tap { |stores| encache_var email_address, stores }
+    end
+  end
+
+  def encache_var(var, val)
+    settings.wss_cache.set(var, val, ttl=settings.wss_cache_ttl)
+  rescue => e
+    logger.info "ENCACHE_CADET failed: #{e}"
+  end
 end
