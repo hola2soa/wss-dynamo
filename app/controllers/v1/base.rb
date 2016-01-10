@@ -11,6 +11,11 @@ class SinatraApp < Sinatra::Base
     set :allow_origin, :any
     set :allow_methods, [:get, :post, :options]
 
+    sqs = Aws::SQS::Client.new(region: ENV['AWS_REGION'])
+
+    set :hola_queue, sqs
+    set :hola_queue_url, sqs.get_queue_url(queue_name: 'RecentRequests').queue_url
+
     set :wss_cache, Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),
       {:username => ENV["MEMCACHIER_USERNAME"],
         :password => ENV["MEMCACHIER_PASSWORD"],

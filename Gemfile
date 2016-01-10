@@ -21,6 +21,8 @@ gem 'aws-sdk', '~> 2'     # DynamoDB (Dynamoid), SQS Message Queue
 gem 'dynamoid', '~> 1'
 gem 'dalli'               # Memcachier
 
+gem 'shoryuken'
+
 group :development do
     gem 'tux'
 end

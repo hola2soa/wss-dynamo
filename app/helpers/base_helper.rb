@@ -23,6 +23,10 @@ module BaseHelper
     # end
   end
 
+  def stores_daily_pinned_items
+    StoresDailyPinnedItems.new.call()
+  end
+
   def parse_price(price)
     pr = price.split(',').map(&:to_i)
 

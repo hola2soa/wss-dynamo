@@ -36,7 +36,7 @@ module UserHelper
   end
 
   def remove_user_stores(req)
-    email_address = session[:email_address] || nil
+    email_address = session[:email_address] || 'ted@gmail.com'
     stores = req['stores']
     valid_stores(stores)
     error_invalid_user(email_address)

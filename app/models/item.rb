@@ -7,6 +7,9 @@ class Item
   field     :link,        :string,  presence: true
   field     :images,      :array,   presence: true
   has_one   :store
+  belongs_to :users
+
+  belongs_to :users
 
   belongs_to :users
 
