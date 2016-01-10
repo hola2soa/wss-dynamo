@@ -23,22 +23,11 @@ module ScraperHelper
       halt 404, 'User request record not found'
     end
 
-    begin
-      keywords = user_request.keywords
-      prices = user_request.prices
-      categories = user_request.categories
-      options = formulate_options(keywords, prices, categories)
-      items = []
-
-      if !options.empty?
-        items = ScrapeMultipleItems.new.call(options)
-      else
-        halt 500, 'Unexpected error occcured'
-      end
-    rescue => e
-      halt 400, 'Failed to scrape multiple items'
-    end
-    items
+    keywords = user_request.keywords
+    prices = user_request.prices
+    categories = user_request.categories
+    options = formulate_options(keywords, prices, categories)
+    ScraperWorker.perform_async(options.to_json)
   end
 
   def get_random_items(req)
@@ -68,11 +57,12 @@ module ScraperHelper
   end
 
   def formulate_options(keywords, prices, categories)
+    email_address = session[:email_address] || 'ted@gmail.com'
     kw = keywords.map { |value| { keyword: value } } if keywords
     pr = prices.map { |value| { price_boundary: value } } if prices
     ca = categories.map { |value| { category: value } } if categories
 
-    user_stores = GetUserStores.new.call(session[:email_address])
+    user_stores = GetUserStores.new.call(email_address)
     halt 400, 'User has no stores' unless user_stores
     stores = user_stores.map { |value| { store: value } }
 
@@ -81,6 +71,7 @@ module ScraperHelper
     options.push(pr) if pr
     options.push(ca) if ca
     options.push(stores)
+    #options.push([{ api_server: settings.api_server }])
     if options.length >= 1
       r = options[0]
       r.product(*options).each { |i| result.push(i.reduce({}, :merge)) }

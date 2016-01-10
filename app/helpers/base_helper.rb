@@ -31,7 +31,7 @@ module BaseHelper
   end
 
   def stores_daily_pinned_items
-    stores_daily_pinned_items.new.call()
+    StoresDailyPinnedItems.new.call()
   end
 
   def failed(message)

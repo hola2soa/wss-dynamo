@@ -29,7 +29,7 @@ module UserHelper
   end
 
   def remove_user_stores(req)
-    email_address = session[:email_address] || nil
+    email_address = session[:email_address] || 'ted@gmail.com'
     stores = req['stores']
     valid_stores(stores)
     error_invalid_user(email_address)
@@ -40,7 +40,7 @@ module UserHelper
     keywords = check_keywords(req)
     prices = check_prices(req)
     categories = check_categories(req)
-    email_address = session[:email_address] || nil
+    email_address = session[:email_address] || 'ted@gmail.com'
     valid_email(email_address)
     record = { keywords: keywords, prices: prices, categories: categories }
     user_req = SaveUserRequest.new.call(email_address, record)

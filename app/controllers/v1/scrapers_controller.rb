@@ -5,7 +5,7 @@ class SinatraApp < Sinatra::Base
 
   create_user_request = lambda do
     content_type :json
-    authorize!
+    # authorize!
     begin
       req = JSON.parse(request.body.read)
     rescue => e
@@ -47,7 +47,7 @@ class SinatraApp < Sinatra::Base
 
   get_user_pinned_items = lambda do
     content_type :json
-    #authorize!
+    authorize!
     get_user_pinned_items().to_json
   end
 

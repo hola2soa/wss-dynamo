@@ -11,8 +11,10 @@ class SinatraApp < Sinatra::Base
     set :allow_origin, :any
     set :allow_methods, [:get, :post, :options]
 
-    set :hola_queue, Aws::SQS::Client.new(region: ENV['AWS_REGION'])
-    set :hola_queue_name, 'RecentRequests'
+    sqs = Aws::SQS::Client.new(region: ENV['AWS_REGION'])
+
+    set :hola_queue, sqs
+    set :hola_queue_url, sqs.get_queue_url(queue_name: 'RecentRequests').queue_url
   end
 
   configure :development, :test do
