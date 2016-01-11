@@ -11,21 +11,21 @@ class SinatraApp < Sinatra::Base
 
   add_user_stores = lambda do
     content_type :json
-    authorize!
+    # authorize!
     req = JSON.parse(request.body.read)
     add_user_stores(req).to_json
   end
 
   remove_user_stores = lambda do
     content_type :json
-    authorize!
+    # authorize!
     req = JSON.parse(request.body.read)
     remove_user_stores(req).to_json
   end
 
   pin_item = lambda do
     content_type :json
-    #authorize!
+    # authorize!
     req = JSON.parse(request.body.read)
     pin_item(req).to_json
   end

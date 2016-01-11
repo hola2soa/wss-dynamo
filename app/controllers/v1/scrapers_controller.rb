@@ -5,8 +5,8 @@ class SinatraApp < Sinatra::Base
 
   create_user_request = lambda do
     content_type :json
-    authorize!
-    
+    # authorize!
+
     begin
       req = JSON.parse(request.body.read)
     rescue => e
@@ -19,7 +19,7 @@ class SinatraApp < Sinatra::Base
   end
 
   delete_item = lambda do
-    authorize!
+    # authorize!
     halt 400, 'invalid parameter' unless params[:id]
     deleted = UserRequest.destroy(params[:id])
     status(deleted > 0 ? 200 : 404)
@@ -48,7 +48,7 @@ class SinatraApp < Sinatra::Base
 
   get_user_pinned_items = lambda do
     content_type :json
-    authorize!
+    # authorize!
     req = JSON.parse(request.body.read)
     get_user_pinned_items(req).to_json
   end
