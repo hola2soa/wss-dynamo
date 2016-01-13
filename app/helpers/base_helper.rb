@@ -12,7 +12,6 @@ module BaseHelper
     # should get store from logged in user instead of params
     @@params[:store] = uri[:store] || nil
     @@params[:category] = uri[:category] || 'search'
-    @@params[:id] = uri[:id] if uri[:id]
     @@params[:keyword] = uri[:keyword] || ''
     @@params[:page_limit] = uri[:page_limit] || 3
     @@params[:page] = uri[:page] || 1 # to scrape single page

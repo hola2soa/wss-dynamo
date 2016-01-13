@@ -10,6 +10,8 @@ use Rack::Cors do
   end
 end
 
+use Faye::RackAdapter, :mount => '/faye', :timeout => 25
+
 # --------------------------------------------------------------
 # Top-level routing
 run SinatraApp

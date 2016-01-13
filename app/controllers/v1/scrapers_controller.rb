@@ -15,7 +15,14 @@ class SinatraApp < Sinatra::Base
     end
 
     user_request = new_user_request(req)
-    redirect "/api/v1?id=#{user_request.id}", 303
+    url = "#{settings.api_server}/api/v1?id=#{user_request.id}"
+    { url: url, channel_id: session[:channel_id] }.to_json
+  end
+
+  get_items_by_id = lambda do
+    content_type :json
+    halt 400, 'Invalid Id' unless params[:id]
+    get_items_by_id(params[:id])
   end
 
   delete_item = lambda do
@@ -65,5 +72,6 @@ class SinatraApp < Sinatra::Base
   get '/api/v1/stores_daily_pinned_items', &stores_daily_pinned_items
   post '/api/v1/user_pinned_items', &get_user_pinned_items
   post '/api/v1/get_items', &create_user_request
+  get '/api/v1/item?', &get_items_by_id
   delete '/api/v1?', &delete_item
 end

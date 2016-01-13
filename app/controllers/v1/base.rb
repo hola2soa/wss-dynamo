@@ -17,11 +17,11 @@ class SinatraApp < Sinatra::Base
     set :hola_queue_url, sqs.get_queue_url(queue_name: 'RecentRequests').queue_url
 
     set :wss_cache, Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),
-      {:username => ENV["MEMCACHIER_USERNAME"],
+      { :username => ENV["MEMCACHIER_USERNAME"],
         :password => ENV["MEMCACHIER_PASSWORD"],
         :socket_timeout => 1.5,
         :socket_failure_delay => 0.2
-        })
+    })
     set :wss_cache_ttl, 1.day    # 24hrs
 
     set :wss_queue, Aws::SQS::Client.new(region: ENV['AWS_REGION'])

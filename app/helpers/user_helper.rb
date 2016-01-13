@@ -44,6 +44,8 @@ module UserHelper
   end
 
   def new_user_request(req)
+    channel_id = session[:channel_id] || rand.hash
+    session[:channel_id] = channel_id
     keywords = check_keywords(req)
     prices = check_prices(req)
     categories = check_categories(req)
@@ -52,6 +54,12 @@ module UserHelper
     record = { keywords: keywords, prices: prices, categories: categories }
     user_req = SaveUserRequest.new.call(email_address, record)
     halt 500, 'Unable to save request to database' if user_req.nil?
+
+    user_stores = get_user_stores(email_address)
+    halt 400, 'User has no store in preferences' unless !user_stores.empty?
+
+    options = { id: user_req.id, channel_id: channel_id, stores: user_stores }.to_json
+    ScraperWorker.perform_async(options)
     user_req
   end
 
@@ -133,9 +141,7 @@ module UserHelper
   end
 
   def get_user_stores(email_address)
-    settings.wss_cache.fetch(email_address, ttl=settings.wss_cache_ttl) do
-      GetUserStores.new.call(email_address).tap { |stores| encache_var email_address, stores }
-    end
+    GetUserStores.new.call(email_address)
   end
 
   def encache_var(var, val)
