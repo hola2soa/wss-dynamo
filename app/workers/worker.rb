@@ -17,7 +17,6 @@ class ScraperWorker
   shoryuken_options queue: 'RecentRequests', auto_delete: true
   shoryuken_options body_parser: JSON
   TASKS_COUNT = 9
-  item_scraper = ScrapeItems.new
 
   def perform(sqs_msg, body)
     id = body['id']
@@ -29,14 +28,10 @@ class ScraperWorker
     prices = user_request.prices
     categories = user_request.categories
     options = formulate_options(keywords, prices, categories, stores)
-    puts ":::::::::::::::;oooooooooooooooooooooooooooooo"
-    #options.each do |option|
-    #  puts ".........................................................#{option}"
-    #  result = item_scraper.call(option) if !option.empty?
-    #  puts result
-    #   #update_progress
-    #end
-    sqs_msg.delete
+    options.each do |option|
+      result = ScrapeItems.new.call(option) if !option.empty?
+      update_progress(channel_id, result)
+    end
   end
 
   private
