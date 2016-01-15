@@ -22,6 +22,8 @@ gem 'dynamoid', '~> 1'
 gem 'dalli'               # Memcachier
 
 gem 'shoryuken'
+gem 'faye'
+gem 'httparty'
 
 group :development do
     gem 'tux'
