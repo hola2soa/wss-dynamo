@@ -16,7 +16,11 @@ class ScraperWorker
 
   shoryuken_options queue: 'RecentRequests', auto_delete: true
   shoryuken_options body_parser: JSON
-  TASKS_COUNT = 9
+
+  def initialize()
+    @task_count = 9
+    @progress = 0
+  end
 
   def perform(sqs_msg, body)
     id = body['id']
@@ -28,6 +32,7 @@ class ScraperWorker
     prices = user_request.prices
     categories = user_request.categories
     options = formulate_options(keywords, prices, categories, stores)
+    @task_count = options.length
     options.each do |option|
       result = ScrapeItems.new.call(option) if !option.empty?
       update_progress(channel_id, result)
@@ -37,15 +42,13 @@ class ScraperWorker
   private
 
   def update_progress(channel_id, data)
-    percent = (@progress += (100/TASKS_COUNT)).to_s
+    percent = (@progress += (100/@task_count)).to_s
     message = { data: data, progress: percent }
     publish(channel_id, message)
   end
 
   def publish(channel, message)
-    server = settings.api_server
-    port = settings.port
-    HTTParty.post("#{server}:#{port}", {
+    HTTParty.post('http://localhost:9292/faye', {
         :headers  => { 'Content-Type' => 'application/json' },
         :body    => {
             channel: "/#{channel}",

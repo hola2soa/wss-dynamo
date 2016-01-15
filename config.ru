@@ -1,3 +1,4 @@
+#\ -s puma -E production
 # ---- Load the API environment
 require ::File.expand_path('../config/environments', __FILE__)
 

@@ -5,6 +5,7 @@ class UserRequest
   field   :keywords,        :array
   field   :prices,          :array
   field   :categories,      :array
+  field   :results,         :array
   has_one :user
 
   def self.destroy(id)

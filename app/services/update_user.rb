@@ -26,7 +26,7 @@ class UpdateUser
       item = GetCreateItem.new.call(item_h, store_name)
       user.items << item
     rescue Exception
-      puts 'noooo'
+      logger.info 'noooo'
       { success: false, message: 'Failed to pin item' }
     end
     { success: true, message: 'Item pinned successfully' }

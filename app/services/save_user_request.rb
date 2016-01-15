@@ -5,6 +5,7 @@ class SaveUserRequest
     if !user.nil?
       user_request = UserRequest.new(record)
       user_request.user = user
+      user_request.results = []
       user_request.save
     end
     user_request

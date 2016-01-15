@@ -8,20 +8,20 @@ module UserHelper
   end
 
   def create_user(req)
-    puts '', '----> prepare to create a new user'
-    puts req
+    logger.info '----> prepare to create a new user'
+    logger.info req
     email_address = req['email_address'] || nil
     name          = req['name'] || ''
     stores        = req['stores'] || []
     valid_stores(stores)
-    puts '', '----> stores valid'
+    logger.info '----> stores valid'
     valid_email(email_address)
-    puts '', '----> email valid'
+    logger.info '----> email valid'
     user = get_user(email_address)
-    puts '', '----> check if user existed'
-    puts user
+    logger.info '----> check if user existed'
+    logger.info user
     halt 400, 'User already exists' unless user.nil?
-    puts '', '----> user is not existed, create!'
+    logger.info '----> user is not existed, create!'
     CreateUser.new.call(email_address, name, stores)
   end
 
@@ -51,7 +51,8 @@ module UserHelper
     categories = check_categories(req)
     email_address = session[:email_address] || 'ted@gmail.com'
     valid_email(email_address)
-    record = { keywords: keywords, prices: prices, categories: categories }
+    res = []
+    record = { keywords: keywords, prices: prices, categories: categories, results: res }
     user_req = SaveUserRequest.new.call(email_address, record)
     halt 500, 'Unable to save request to database' if user_req.nil?
 
@@ -72,18 +73,23 @@ module UserHelper
   end
 
   def authorize(req)
-    puts '', '----> prepare to auth user'
+    logger.info '----> prepare to auth user'
     halt 400, 'please provide email address' unless req['email_address']
     email_address = req['email_address']
-    puts email_address
+    logger.info email_address
     user = User.find_by_email_address(email_address)
     halt 404, 'mismatch credentials' unless user
+
+    session[:authorized] = true
+    session[:stores] = GetUserStores.new.call(email_address)
+    session[:email_address] = user.email_address
+
     {
       authorized: true,
       user: {
         name:          user.name,
         email_address: user.email_address,
-        stores: user.stores
+        stores: session[:stores]
       }
     }
   end
@@ -94,7 +100,7 @@ module UserHelper
 
   def check_keywords(req)
     halt 400, 'no keywords in input' unless req['keywords']
-    keywords = req['keywords']
+    keywords = URI.decode(req['keywords'])
     keywords = keywords.split(/\n/) if keywords.is_a? String
     halt 400, 'Keywords must be an array' unless keywords.kind_of? Array
     keywords
@@ -104,7 +110,7 @@ module UserHelper
     prices = []
     if req['prices']
       prices = req['prices']
-      prices = prices.split("\n").map { |i| i.split(",") } if pr.is_a? String
+      prices = prices.split("\n").map { |i| i.split(",") } if prices.is_a? String
       halt 400, 'Prices must be an array' unless prices.kind_of? Array
     end
       prices
@@ -131,7 +137,7 @@ module UserHelper
   end
 
   def get_user(email_address)
-    puts '----> getting user....'
+    logger.info '----> getting user....'
     User.find_by_email_address(email_address)
   end
 
@@ -147,6 +153,6 @@ module UserHelper
   def encache_var(var, val)
     settings.wss_cache.set(var, val, ttl=settings.wss_cache_ttl)
   rescue => e
-    logger.info "ENCACHE_CADET failed: #{e}"
+    logger.info "ENCACHE failed: #{e}"
   end
 end

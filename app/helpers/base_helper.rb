@@ -1,6 +1,6 @@
 module BaseHelper
   @@stores      = ['queenshop', 'joyceshop', 'stylemooncat']
-  @@categories  = ['latest', 'popular', 'tops', 'pants', 'accessories']
+  @@categories  = ['latest', 'popular', 'tops', 'pants', 'accessories', 'search']
   @@params  = {}
 
   def parse_uri(uri)
@@ -10,9 +10,10 @@ module BaseHelper
 
   def read_params(uri)
     # should get store from logged in user instead of params
+    keyword = URI.decode(uri[:keyword]) if uri[:keyword]
     @@params[:store] = uri[:store] || nil
     @@params[:category] = uri[:category] || 'search'
-    @@params[:keyword] = uri[:keyword] || ''
+    @@params[:keyword] = keyword || ''
     @@params[:page_limit] = uri[:page_limit] || 3
     @@params[:page] = uri[:page] || 1 # to scrape single page
     @@params[:price_boundary] = parse_price(uri[:price]) if uri[:price]

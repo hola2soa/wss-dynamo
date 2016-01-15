@@ -6,6 +6,7 @@ require 'sinatra/json'
 require 'sinatra/cross_origin'
 require 'dalli'
 require 'faye'
+require 'uri'
 require_relative 'database'
 
 

@@ -9,7 +9,7 @@ end
 
 desc "Echo to stdout an environment variable"
 task :echo_env, [:var] => :config do |t, args|
-  puts "#{args[:var]}: #{ENV[args[:var]]}"
+  logger.info "#{args[:var]}: #{ENV[args[:var]]}"
 end
 
 desc "Run all tests"
@@ -26,9 +26,9 @@ namespace :queue do
 
     begin
       queue = sqs.create_queue({queue_name: 'RecentRequests'})
-      puts "Queue created"
+      logger.info "Queue created"
     rescue => e
-      puts "Error creating queue: #{e}"
+      logger.info "Error creating queue: #{e}"
     end
   end
 end
@@ -40,15 +40,15 @@ namespace :db do
   task :migrate do
     begin
       UserRequest.create_table
-      puts 'UserRequest table created'
+      logger.info 'UserRequest table created'
       Item.create_table
-      puts 'Item table created'
+      logger.info 'Item table created'
       Store.create_table
-      puts 'Store table created'
+      logger.info 'Store table created'
       User.create_table
-      puts 'User table created'
+      logger.info 'User table created'
     rescue Aws::DynamoDB::Errors::ResourceInUseException => e
-      puts 'Error creating tables'
+      logger.info 'Error creating tables'
     end
   end
 end

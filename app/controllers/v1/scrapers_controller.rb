@@ -15,7 +15,7 @@ class SinatraApp < Sinatra::Base
     end
 
     user_request = new_user_request(req)
-    url = "#{settings.api_server}/api/v1?id=#{user_request.id}"
+    url = "#{settings.api_server}/api/v1/item?id=#{user_request.id}"
     { url: url, channel_id: session[:channel_id] }.to_json
   end
 

@@ -2,9 +2,9 @@ require 'concurrent'
 
 module ScraperHelper
   def fetch_item_records(opts)
-    items = settings.wss_cache.fetch(opts.to_s, ttl=settings.wss_cache_ttl) do
+    #items = settings.wss_cache.fetch(opts.to_s, ttl=settings.wss_cache_ttl) do
       items = ScrapeItems.new.call(opts).tap { |v| encache_var opts.to_s, v }
-    end
+    #end
     items.nil? ? halt(404) : items.to_json
   end
 
@@ -26,6 +26,8 @@ module ScraperHelper
   def check_items(item_id)
     channel_id = session[:channel_id] || rand.hash
     session[:channel_id] = channel_id
+    email_address = session[:email_address] || 'ted@gmail.com'
+
     begin
       user_request = UserRequest.find(item_id)
       raise 'item not found' unless user_request
@@ -37,8 +39,10 @@ module ScraperHelper
     user_stores = get_user_stores(email_address)
     halt 400, 'User has no store in preferences' unless user_stores
 
-    options = { id: user_req.id, channel_id: channel_id, store: user_stores }.to_json
-    ScraperWorker.perform_async(options)
+    # options = { id: user_request.id, channel_id: channel_id, store: user_stores }.to_json
+    res = []
+    res = user_request.result.flatten.compact.uniq if user_request.result
+    res
   end
 
   def get_random_items(req)
